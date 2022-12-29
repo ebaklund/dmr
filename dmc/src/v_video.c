@@ -164,35 +164,35 @@ void V_SetPatchClipCallback(vpatchclipfunc_t func)
 // [crispy] four different rendering functions
 // for each possible combination of dp_translation and dp_translucent:
 // (1) normal, opaque patch
-static const inline pixel_t drawpatchpx00 (const pixel_t dest, const pixel_t source)
+inline static pixel_t drawpatchpx00 (const pixel_t, const pixel_t source)
 #ifndef CRISPY_TRUECOLOR
 {return source;}
 #else
 {return colormaps[source];}
 #endif
 // (2) color-translated, opaque patch
-static const inline pixel_t drawpatchpx01 (const pixel_t dest, const pixel_t source)
+inline static pixel_t drawpatchpx01 (const pixel_t, const pixel_t source)
 #ifndef CRISPY_TRUECOLOR
 {return dp_translation[source];}
 #else
 {return colormaps[dp_translation[source]];}
 #endif
 // (3) normal, translucent patch
-static const inline pixel_t drawpatchpx10 (const pixel_t dest, const pixel_t source)
+inline static pixel_t drawpatchpx10 (const pixel_t dest, const pixel_t source)
 #ifndef CRISPY_TRUECOLOR
 {return tranmap[(dest<<8)+source];}
 #else
 {return I_BlendOver(dest, colormaps[source]);}
 #endif
 // (4) color-translated, translucent patch
-static const inline pixel_t drawpatchpx11 (const pixel_t dest, const pixel_t source)
+inline static pixel_t drawpatchpx11 (const pixel_t dest, const pixel_t source)
 #ifndef CRISPY_TRUECOLOR
 {return tranmap[(dest<<8)+dp_translation[source]];}
 #else
 {return I_BlendOver(dest, colormaps[dp_translation[source]]);}
 #endif
 // [crispy] array of function pointers holding the different rendering functions
-typedef const pixel_t drawpatchpx_t (const pixel_t dest, const pixel_t source);
+typedef pixel_t drawpatchpx_t (const pixel_t dest, const pixel_t source);
 static drawpatchpx_t *const drawpatchpx_a[2][2] = {{drawpatchpx11, drawpatchpx10}, {drawpatchpx01, drawpatchpx00}};
 
 static fixed_t dx, dxi, dy, dyi;
@@ -770,7 +770,7 @@ void V_DrawHorizLine(int x, int y, int w, int c)
     int x1;
 
     // [crispy] prevent framebuffer overflows
-    if (x + w > (unsigned)SCREENWIDTH)
+    if (x + w > SCREENWIDTH)
 	w = SCREENWIDTH - x;
 
     buf = I_VideoBuffer + SCREENWIDTH * y + x;
@@ -962,17 +962,17 @@ void WritePCXfile(char *filename, pixel_t *data,
 // WritePNGfile
 //
 
-static void error_fn(png_structp p, png_const_charp s)
+static void error_fn(png_structp, png_const_charp s)
 {
     printf("libpng error: %s\n", s);
 }
 
-static void warning_fn(png_structp p, png_const_charp s)
+static void warning_fn(png_structp, png_const_charp s)
 {
     printf("libpng warning: %s\n", s);
 }
 
-void WritePNGfile(char *filename, pixel_t *data,
+void WritePNGfile(char *filename, pixel_t *,
                   int width, int height,
                   byte *palette)
 {

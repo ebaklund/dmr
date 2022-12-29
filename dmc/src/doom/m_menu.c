@@ -233,7 +233,7 @@ enum
   main_end
 } main_e;
 
-menuitem_t MainMenu[] = {{1, "M_NGAME", M_NewGame, 'n'},
+static menuitem_t MainMenu[] = {{1, "M_NGAME", M_NewGame, 'n'},
                          {1, "M_OPTION", M_Options, 'o'},
                          // Another hickup with Special edition.
                          {1, "M_RDTHIS", M_ReadThis, 'r'},

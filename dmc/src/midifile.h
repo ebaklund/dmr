@@ -23,6 +23,8 @@ typedef struct midi_track_iter_s midi_track_iter_t;
 
 #define MIDI_CHANNELS_PER_TRACK 16
 
+#include "doomtype.h"
+
 typedef enum
 {
     MIDI_EVENT_NOTE_OFF        = 0x80,

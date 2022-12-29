@@ -18,6 +18,8 @@
 #ifndef I_VIDEOHR_H
 #define I_VIDEOHR_H
 
+#include "doomtype.h"
+
 boolean I_SetVideoModeHR(void);
 void I_UnsetVideoModeHR(void);
 void I_SetWindowTitleHR(const char *title);

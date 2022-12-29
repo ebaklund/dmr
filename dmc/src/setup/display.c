@@ -83,7 +83,8 @@ static int usegamma = 0;
 
 int graphical_startup = 0; // [crispy]
 int show_endoom = 0; // [crispy]
-int show_diskicon = 1;
+// int show_diskicon = 1;
+extern int show_diskicon;
 int png_screenshots = 1; // [crispy]
 
 static int system_video_env_set;

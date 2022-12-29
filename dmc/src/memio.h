@@ -16,9 +16,11 @@
 #ifndef MEMIO_H
 #define MEMIO_H
 
+#include <stddef.h>
+
 typedef struct _MEMFILE MEMFILE;
 
-typedef enum 
+typedef enum
 {
 	MEM_SEEK_SET,
 	MEM_SEEK_CUR,
@@ -35,4 +37,4 @@ long mem_ftell(MEMFILE *stream);
 int mem_fseek(MEMFILE *stream, signed long offset, mem_rel_t whence);
 
 #endif /* #ifndef MEMIO_H */
-	  
+

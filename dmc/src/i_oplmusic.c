@@ -349,8 +349,11 @@ static unsigned int last_perc_count;
 // Configuration file variable, containing the port number for the
 // adlib chip.
 
-char *snd_dmxoption = "-opl3"; // [crispy] default to OPL3 emulation
-int opl_io_port = 0x388;
+// char *snd_dmxoption = "-opl3"; // [crispy] default to OPL3 emulation
+// int opl_io_port = 0x388;
+
+extern char *snd_dmxoption; // [crispy] default to OPL3 emulation
+extern int opl_io_port;
 
 // If true, OPL sound channels are reversed to their correct arrangement
 // (as intended by the MIDI standard) rather than the backwards one

@@ -39,7 +39,8 @@ static float mouse_acceleration_y = 1.0; // [crispy]
 static int mouse_threshold_y = 0; // [crispy]
 static int grabmouse = 1;
 
-int novert = 1;
+// int novert = 1;
+static int novert = 1;
 
 static int *all_mouse_buttons[] = {
     &mousebfire,

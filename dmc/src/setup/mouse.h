@@ -18,6 +18,6 @@
 void ConfigMouse(void *widget, void *user_data);
 void BindMouseVariables(void);
 
-extern int novert;
+// extern int novert;
 
 #endif /* #ifndef SETUP_MOUSE_H */

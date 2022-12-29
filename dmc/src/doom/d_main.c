@@ -71,8 +71,6 @@
 
 #include "d_main.h"
 
-#include "dmr/src/lib.h"
-
 //
 // D-DoomLoop()
 // Not a globally visible function,
@@ -116,7 +114,8 @@ boolean main_loop_started = false;
 char wadfile[1024];  // primary wad file
 char mapdir[1024];   // directory of development maps
 
-int show_endoom = 0;  // [crispy] disable
+//int show_endoom = 0;  // [crispy] disable
+extern int show_endoom;  // [crispy] disable
 int show_diskicon = 1;
 
 char* nervewadfile = NULL;
@@ -1041,8 +1040,6 @@ void D_DoomMain(void)
   char file[256];
   char demolumpname[9];
   int numiwadlumps;
-
-  rust_function();
 
   I_AtExit(D_Endoom,
            false);  // Eba Show filal text tring at termination of game

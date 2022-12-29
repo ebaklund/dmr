@@ -45,14 +45,19 @@ static const char *cfg_extension[] = { "cfg", NULL };
 
 // Config file variables:
 
-int snd_sfxdevice = SNDDEVICE_SB;
-int snd_musicdevice = SNDDEVICE_SB;
-int snd_samplerate = 44100;
+// int snd_sfxdevice = SNDDEVICE_SB;
+// int snd_musicdevice = SNDDEVICE_SB;
+//int snd_samplerate = 44100;
+extern int snd_samplerate;
 int opl_io_port = 0x388;
-int snd_cachesize = 64 * 1024 * 1024;
-int snd_maxslicetime_ms = 28;
-char *snd_musiccmd = "";
-int snd_pitchshift = 0;
+// int snd_cachesize = 64 * 1024 * 1024;
+extern int snd_cachesize;
+// int snd_maxslicetime_ms = 28;
+extern int snd_maxslicetime_ms;
+// char *snd_musiccmd = "";
+extern char *snd_musiccmd;
+// int snd_pitchshift = 0;
+extern int snd_pitchshift; // NOTE: Default -1. May have to be set to 0! EBa
 char *snd_dmxoption = "-opl3"; // [crispy] default to OPL3 emulation
 
 static int numChannels = 8;

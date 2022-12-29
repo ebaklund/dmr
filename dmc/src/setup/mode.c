@@ -38,7 +38,8 @@
 
 #include "mode.h"
 
-GameMission_t gamemission;
+// GameMission_t gamemission;
+extern GameMission_t gamemission;
 static const iwad_t **iwads;
 
 typedef struct

@@ -17,7 +17,8 @@
 
 void D_DoomMain (void);
 
-int main(int argc, char **argv)
+// int main(int argc, char **argv)
+int i_main(int argc, char **argv)
 {
   myargc = argc;
   myargv = argv;

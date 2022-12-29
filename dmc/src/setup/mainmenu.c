@@ -89,7 +89,7 @@ static void SensibleDefaults(void)
     graphical_startup = 0;
     show_endoom = 0;
     dclick_use = 0;
-    novert = 1;
+    // novert = 1;
     snd_dmxoption = "-opl3 -reverse";
     png_screenshots = 1;
 }
@@ -327,7 +327,7 @@ static void MissionSet(void)
     MainMenu();
 }
 
-void D_DoomMain(void)
+void EBa_D_DoomMain(void) // EBa: May activate later if standalin setup program needed. Purge setup?
 {
     SetupMission(MissionSet);
 
