@@ -10,18 +10,27 @@ use libc::c_int;
 #[link(name = "dmc", kind = "static")]
 extern "C"
 {
-    fn i_main(argc: c_int, argv: *const *const c_char) -> c_int;
+    static mut myargc: c_int;
+    static mut myargv: *const *const c_char;
+
+    fn M_FindResponseFile();
+    fn D_DoomMain ();
 }
 
 fn main()
 {
-    println!("Hello, world!");
-
     let pinned_args = std::env::args()
         .map(|arg| CString::new(arg).unwrap())
         .collect::<Vec<CString>>();
 
     let argv: Vec<*const c_char> = pinned_args.iter().map(|s| s.as_ptr()).collect();
 
-    unsafe { i_main(argv.len() as c_int, argv.as_ptr()) };
+    unsafe
+    {
+        myargc = argv.len() as c_int;
+        myargv = argv.as_ptr();
+
+        M_FindResponseFile();
+        D_DoomMain ();
+    };
 }

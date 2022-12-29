@@ -1,0 +1,45 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'dmr'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=dmr",
+          "--package=dmr"
+        ],
+        "filter": {
+          "name": "dmr",
+          "kind": "bin"
+        }
+      },
+      "args": ["-iwad", "doom-wad-shareware-1.9.fixed/doom1.wad", "-episode", "0"],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'dmr'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--bin=dmr",
+          "--package=dmr"
+        ],
+        "filter": {
+          "name": "dmr",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
