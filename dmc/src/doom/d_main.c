@@ -51,6 +51,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 
+#include "i_endoom.h"
 #include "i_input.h"
 #include "i_joystick.h"
 #include "i_system.h"
@@ -1007,10 +1008,24 @@ void PrintGameVersion(void)
   }
 }
 
-// Function called at exit to display the ENDOOM screen
+//
+// Called at exit to display the ENDOOM screen (ENDTEXT in Heretic)
+//
 
 static void D_Endoom(void)
 {
+    byte *endoom_data;
+
+    // Disable ENDOOM?
+
+    if (!show_endoom || testcontrols || !main_loop_started)
+    {
+        return;
+    }
+
+    endoom_data = W_CacheLumpName(DEH_String("ENDTEXT"), PU_STATIC);
+
+    I_Endoom(endoom_data);
 }
 
 // Load dehacked patches needed for certain IWADs.
@@ -1041,81 +1056,28 @@ void D_DoomMain(void)
   char demolumpname[9];
   int numiwadlumps;
 
-  I_AtExit(D_Endoom,
-           false);  // Eba Show filal text tring at termination of game
-
-  DEH_printf("Z_Init: Init zone memory allocation daemon. \n");
-  Z_Init();  // EBa probably not needed in JavasScript environment
+  I_AtExit(D_Endoom, false);  // Eba Missing implementation
 
   /* EBA */
 
-  //!
-  // @category game
-  // @vanilla
-  //
-  // Disable monsters.
-  //
-
-  nomonsters = M_CheckParm("-nomonsters");
-
-  //!
-  // @category game
-  // @vanilla
-  //
-  // Monsters respawn after being killed.
-  //
-
-  respawnparm = M_CheckParm("-respawn");
-
-  //!
-  // @category game
-  // @vanilla
-  //
-  // Monsters move faster.
-  //
-
-  fastparm = M_CheckParm("-fast");
-
-  //!
-  // @vanilla
-  //
-  // Developer mode. F1 saves a screenshot in the current working
-  // directory.
-  //
-
-  devparm = M_CheckParm("-devparm");
+  nomonsters = M_CheckParm("-nomonsters"); // Disable monsters.
+  respawnparm = M_CheckParm("-respawn"); // Monsters respawn after being killed.
+  fastparm = M_CheckParm("-fast"); // Monsters move faster.
+  devparm = M_CheckParm("-devparm"); // Developer mode. F1 saves a screenshot in the current working
 
   I_DisplayFPSDots(devparm);
 
-  //!
-  // @category net
-  // @vanilla
-  //
   // Start a deathmatch game.
-  //
-
-  if (M_CheckParm("-deathmatch"))
+   if (M_CheckParm("-deathmatch"))
     deathmatch = 1;
 
-  //!
-  // @category net
-  // @vanilla
-  //
   // Start a deathmatch 2.0 game.  Weapons do not stay in place and
   // all items respawn after 30 seconds.
-  //
-
   if (M_CheckParm("-altdeath"))
     deathmatch = 2;
 
-  //!
-  // @category net
-  // @vanilla
-  //
   // Start a deathmatch 3.0 game.  Weapons stay in place and
   // all items respawn after 30 seconds.
-  //
-
   if (M_CheckParm("-dm3"))
     deathmatch = 3;
 
@@ -1149,11 +1111,7 @@ void D_DoomMain(void)
     M_SetConfigDir(NULL);
   }
 
-  //!
-  // @category game
-  // @arg <x>
-  // @vanilla
-  //
+
   // Turbo mode.  The player's speed is multiplied by x%.  If unspecified,
   // x defaults to 200.  Values are rounded up to 10 and down to 400.
   //

@@ -31,6 +31,7 @@ fn main()
         .files(c_files_in("./dmc/src/setup"))
         .files(c_files_in("./dmc/opl"))
         .files(c_files_in("./dmc/pcsound"))
+        .files(c_files_in("./dmc/textscreen"))
         .compile("dmc");
 
         // https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-arg

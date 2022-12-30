@@ -26,7 +26,7 @@
 
 #include "z_zone.h"
 
-typedef struct 
+typedef struct
 {
     char *from_text;
     char *to_text;
@@ -42,7 +42,7 @@ static unsigned int strhash(const char *s)
 {
     const char *p = s;
     unsigned int h = *p;
-  
+
     if (h)
     {
         for (p += 1; *p; p++)
@@ -106,7 +106,7 @@ boolean DEH_HasStringReplacement(const char *s)
 static void InitHashTable(void)
 {
     // init hash table
-    
+
     hash_table_entries = 0;
     hash_table_length = 16;
     hash_table = Z_Malloc(sizeof(deh_substitution_t *) * hash_table_length,
@@ -121,13 +121,13 @@ static void IncreaseHashtable(void)
     deh_substitution_t **old_table;
     int old_table_length;
     int i;
-    
+
     // save the old table
 
     old_table = hash_table;
     old_table_length = hash_table_length;
-    
-    // double the size 
+
+    // double the size
 
     hash_table_length *= 2;
     hash_table = Z_Malloc(sizeof(deh_substitution_t *) * hash_table_length,
@@ -402,22 +402,6 @@ void DEH_printf(const char *fmt, ...)
     va_start(args, fmt);
 
     vprintf(repl, args);
-
-    va_end(args);
-}
-
-// fprintf(), performing a replacement on the format string.
-
-void DEH_fprintf(FILE *fstream, const char *fmt, ...)
-{
-    va_list args;
-    const char *repl;
-
-    repl = FormatStringReplacement(fmt);
-
-    va_start(args, fmt);
-
-    vfprintf(fstream, repl, args);
 
     va_end(args);
 }
