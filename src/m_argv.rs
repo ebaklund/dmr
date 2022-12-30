@@ -11,7 +11,6 @@ use clap::{Parser};
 // https://docs.rs/clap/latest/clap/_derive/index.html
 // https://blog.rng0.io/compile-time-feature-flags-in-rust-why-how-when
 
-
 #[derive(Parser, Debug)]
 pub struct DmrArgs {
    #[arg(long, num_args(1))]
@@ -38,9 +37,7 @@ impl DmrArgs
 
     fn try_update_from_response_file(mut self: DmrArgs) -> Result<DmrArgs, String>
     {
-        let path_opt = self.get_response_path()?;
-
-        match path_opt
+        match self.get_response_path()?
         {
             Some(path) =>
             {
@@ -50,18 +47,8 @@ impl DmrArgs
                     Err(str) => Err(str.to_string())
                 }?;
 
-                let reader = BufReader::new(file);
-
-                let lines = reader
-                    .lines()
-                    .filter_map(|line| line.ok())
-                    .collect::<Vec<String>>();
-
-                let words = lines
-                    .iter()
-                    .flat_map(|line| line.split_whitespace())
-                    .map(|word| word.to_string())
-                    .collect::<Vec<String>>();
+                let mut reader = BufReader::new(file);
+                let words = get_response_words(&mut reader);
 
                 match self.try_update_from(words)
                 {
@@ -96,4 +83,20 @@ impl DmrArgs
             _ => Ok(None)
         }
     }
+}
+
+fn get_response_words(reader: &mut BufReader<File>) -> Vec<String>
+{
+    let lines = reader
+        .lines()
+        .filter_map(|line| line.ok())
+        .collect::<Vec<String>>();
+
+    let words = lines
+        .iter()
+        .flat_map(|line| line.split_whitespace())
+        .map(|word| word.to_string())
+        .collect::<Vec<String>>();
+
+    words
 }
