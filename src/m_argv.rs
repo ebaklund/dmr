@@ -12,19 +12,19 @@ use clap::{Parser};
 // https://blog.rng0.io/compile-time-feature-flags-in-rust-why-how-when
 
 #[derive(Parser, Debug)]
-pub struct DmrArgs {
+pub struct DArgv {
    #[arg(long, num_args(1))]
-   iwad: Option<String>,
+   iwad: String,
 
    #[arg(long, num_args(1))]
    response: Option<String>,
 }
 
-impl DmrArgs
+impl DArgv
 {
-    pub fn new() -> Result<DmrArgs, String>
+    pub fn new() -> Result<DArgv, String>
     {
-        let parse_res = <DmrArgs as clap::Parser>::try_parse();
+        let parse_res = <DArgv as clap::Parser>::try_parse();
 
         match parse_res
         {
@@ -35,7 +35,7 @@ impl DmrArgs
 
     // PRIVATE HELPERS
 
-    fn try_update_from_response_file(mut self: DmrArgs) -> Result<DmrArgs, String>
+    fn try_update_from_response_file(mut self: DArgv) -> Result<DArgv, String>
     {
         match self.get_response_path()?
         {
