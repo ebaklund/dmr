@@ -1,15 +1,15 @@
 
-use std::ffi::CString;
-
 extern crate libc;
-use libc::c_char;
-use libc::c_int;
 
+use libc::{c_char, c_int};
+
+mod c_ffi;
 mod m_argv;
-use m_argv::{DArgv};
-
 mod d_game;
+
+use m_argv::{DArgv};
 use d_game::{DGame};
+use c_ffi::{*};
 
 // https://stackoverflow.com/questions/69437925/problem-with-calling-c-function-that-receive-command-line-arguments-from-rust
 
@@ -20,21 +20,11 @@ extern "C"
     static mut myargv: *const *const c_char;
 }
 
-fn main()
+fn main() -> Result<(), String>
 {
-    let _dargv = DArgv::new();
-
-    let args: Vec<String> = std::env::args().collect();
-
-    let pinned_args: Vec<CString> = args
-        .iter()
-        .map(|s| CString::new(s.to_string()).unwrap())
-        .collect();
-
-    let c_argv: Vec<*const c_char> = pinned_args
-        .iter()
-        .map(|s| s.as_ptr())
-        .collect();
+    let _dargv = DArgv::try_create()?;
+    let pinned_args = std::env::args().to_cstrings()?;
+    let c_argv = pinned_args.as_ptrs();
 
     unsafe
     {
@@ -44,5 +34,7 @@ fn main()
 
     let _dgame = DGame::new();
 
-    _dgame.main();
+    _dgame.main(&_dargv)?;
+
+    Ok(())
 }

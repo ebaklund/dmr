@@ -413,12 +413,14 @@ char *D_TryFindWADByName(const char *filename)
 //
 // FindIWAD
 
-char *D_FindIWAD(int mask, GameMission_t *mission)
+char *D_FindIWAD(char* iwadfile, int mask, GameMission_t *mission)
 {
     char *result;
-    char *iwadfile;
     int iwadparm;
     int i;
+
+    if (iwadfile)
+        return iwadfile;
 
     // Check for the -iwad parameter
 

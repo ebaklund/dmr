@@ -19,7 +19,7 @@
           "kind": "bin"
         }
       },
-      "args": ["-iwad", "doom-wad-shareware-1.9.fixed/doom1.wad", "-episode", "0"],
+      "args": ["--iwad", "doom-wad-shareware-1.9.fixed/doom1.wad"],
       "cwd": "${workspaceFolder}"
     },
     {

@@ -13,16 +13,16 @@ use clap::{Parser};
 
 #[derive(Parser, Debug)]
 pub struct DArgv {
-   #[arg(long, num_args(1))]
-   iwad: String,
+   #[arg(long, required(true), num_args(1))]
+   pub iwad: String,
 
    #[arg(long, num_args(1))]
-   response: Option<String>,
+   pub response: Option<String>,
 }
 
 impl DArgv
 {
-    pub fn new() -> Result<DArgv, String>
+    pub fn try_create() -> Result<DArgv, String>
     {
         let parse_res = <DArgv as clap::Parser>::try_parse();
 

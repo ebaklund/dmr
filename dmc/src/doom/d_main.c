@@ -72,20 +72,6 @@
 
 #include "d_main.h"
 
-//
-// D-DoomLoop()
-// Not a globally visible function,
-//  just included for source reference,
-//  called by D_DoomMain, never exits.
-// Manages timing and IO,
-//  calls all ?_Responder, ?_Ticker, and ?_Drawer,
-//  calls I_GetTime, I_StartFrame, and I_StartTic
-//
-void D_DoomLoop(void);
-
-// location of IWAD and WAD files
-
-char* iwadfile;
 
 boolean devparm;      // started game with -devparm
 boolean nomonsters;   // checkparm of -nomonsters
@@ -1049,7 +1035,7 @@ static void G_CheckDemoStatusAtExit(void)
 //
 // D_DoomMain
 //
-void D_DoomMain(void)
+void D_DoomMain(char* iwadfile)
 {
   int p;
   char file[256];
@@ -1149,7 +1135,7 @@ void D_DoomMain(void)
   I_AtExit(M_SaveDefaults, true);  // [crispy] always save configuration at exit
 
   // Find main IWAD file and load it.
-  iwadfile = D_FindIWAD(IWAD_MASK_DOOM, &gamemission);
+  iwadfile = D_FindIWAD(iwadfile, IWAD_MASK_DOOM, &gamemission);
 
   // None found?
 
@@ -1547,17 +1533,6 @@ void D_DoomMain(void)
     testcontrols = true;
   }
 
-  // [crispy] port level flipping feature over from Strawberry Doom
-#ifdef ENABLE_APRIL_1ST_JOKE
-  {
-    time_t curtime = time(NULL);
-    struct tm* curtm = localtime(&curtime);
-
-    if (curtm && curtm->tm_mon == 3 && curtm->tm_mday == 1)
-      crispy->fliplevels = true;
-  }
-#endif
-
   p = M_CheckParm("-fliplevels");
 
   if (p > 0)
@@ -1577,15 +1552,7 @@ void D_DoomMain(void)
   // We do this here and save the slot number, so that the network code
   // can override it or send the load slot to other players.
 
-  //!
-  // @category game
-  // @arg <s>
-  // @vanilla
-  //
-  // Load the game in slot s.
-  //
-
-  p = M_CheckParmWithArgs("-loadgame", 1);
+  p = M_CheckParmWithArgs("-loadgame", 1); // Load the game in slot s.
 
   if (p)
   {
