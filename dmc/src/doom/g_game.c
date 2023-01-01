@@ -1028,6 +1028,7 @@ void G_Ticker(void)
       case ga_newgame:
         // [crispy] re-read game parameters from command line
         G_ReadGameParms();
+        playeringame[0] = true; // HACK! EBa
         G_DoNewGame();
         break;
 

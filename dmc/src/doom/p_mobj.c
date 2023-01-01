@@ -844,7 +844,9 @@ void P_SpawnPlayer (mapthing_t* mthing)
 
     // not playing?
     if (!playeringame[mthing->type-1])
-	return;
+    {
+	    return;
+    }
 
     p = &players[mthing->type-1];
 
@@ -882,15 +884,19 @@ void P_SpawnPlayer (mapthing_t* mthing)
 
     // give all cards in death match mode
     if (deathmatch)
-	for (i=0 ; i<NUMCARDS ; i++)
-	    p->cards[i] = true;
+	    for (i=0 ; i<NUMCARDS ; i++)
+	        p->cards[i] = true;
 
     if (mthing->type-1 == consoleplayer)
     {
-	// wake up the status bar
-	ST_Start ();
-	// wake up the heads up text
-	HU_Start ();
+    	// wake up the status bar
+    	ST_Start ();
+    	// wake up the heads up text
+    	HU_Start ();
+    }
+    else
+    {
+        deathmatch_p += 0; // EBa: For breakpoint
     }
 }
 
