@@ -573,41 +573,6 @@ angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
 }
 
 //
-// R_InitTables
-//
-void R_InitTables (void)
-{
-    // UNUSED: now getting from tables.c
-#if 0
-    int		i;
-    float	a;
-    float	fv;
-    int		t;
-
-    // viewangle tangent table
-    for (i=0 ; i<FINEANGLES/2 ; i++)
-    {
-	a = (i-FINEANGLES/4+0.5)*PI*2/FINEANGLES;
-	fv = FRACUNIT*tan (a);
-	t = fv;
-	finetangent[i] = t;
-    }
-
-    // finesine table
-    for (i=0 ; i<5*FINEANGLES/4 ; i++)
-    {
-	// OPTIMIZE: mirror...
-	a = (i+0.5)*PI*2/FINEANGLES;
-	t = FRACUNIT*sin (a);
-	finesine[i] = t;
-    }
-#endif
-
-}
-
-
-
-//
 // R_InitTextureMapping
 //
 void R_InitTextureMapping (void)
@@ -919,10 +884,6 @@ void R_Init (void)
     printf (".");
     R_InitPointToAngle ();
     printf (".");
-    R_InitTables ();
-    // viewwidth / viewheight / detailLevel are set by the defaults
-    printf (".");
-
     R_SetViewSize (screenblocks, detailLevel);
     R_InitPlanes ();
     printf (".");
