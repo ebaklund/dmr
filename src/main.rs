@@ -4,8 +4,9 @@ extern crate libc;
 use libc::{c_char, c_int};
 
 mod c_ffi;
-mod m_argv;
 mod d_game;
+mod m_argv;
+mod m_fixed;
 
 use m_argv::{DArgv};
 use d_game::{DGame};
