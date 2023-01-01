@@ -1391,22 +1391,15 @@ void ST_updateWidgets(void)
   static int largeammo = 1994;  // means "n/a"
   int i;
 
+  if (!plyr)
+    return;
+
   // must redirect the pointer if the ready weapon has changed.
-  //  if (w_ready.data != plyr->readyweapon)
-  //  {
   if (weaponinfo[plyr->readyweapon].ammo == am_noammo)
     w_ready.num = &largeammo;
   else
     w_ready.num = &plyr->ammo[weaponinfo[plyr->readyweapon].ammo];
-  //{
-  // static int tic=0;
-  // static int dir=-1;
-  // if (!(tic&15))
-  //   plyr->ammo[weaponinfo[plyr->readyweapon].ammo]+=dir;
-  // if (plyr->ammo[weaponinfo[plyr->readyweapon].ammo] == -100)
-  //   dir = 1;
-  // tic++;
-  // }
+
   w_ready.data = plyr->readyweapon;
 
   // if (*w_ready.on)
