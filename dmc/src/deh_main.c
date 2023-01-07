@@ -87,18 +87,11 @@ static void InitializeSections(void)
 
 static void DEH_Init(void)
 {
-    //!
-    // @category mod
-    //
-    // Ignore cheats in dehacked files.
-    //
-
-    if (M_CheckParm("-nocheats") > 0) 
+    if (M_CheckParm("-nocheats") > 0)
     {
-	deh_apply_cheats = false;
+    	deh_apply_cheats = false;
     }
 
-    // Call init functions for all the section definitions.
     InitializeSections();
 
     deh_initialized = true;
@@ -154,7 +147,7 @@ static char *CleanString(char *s)
         ++s;
 
     // Trailing whitespace
-   
+
     strending = s + strlen(s) - 1;
 
     while (strlen(s) > 0 && isspace(*strending))
@@ -166,7 +159,7 @@ static char *CleanString(char *s)
     return s;
 }
 
-// This pattern is used a lot of times in different sections, 
+// This pattern is used a lot of times in different sections,
 // an assignment is essentially just a statement of the form:
 //
 // Variable Name = Value
@@ -181,7 +174,7 @@ boolean DEH_ParseAssignment(char *line, char **variable_name, char **value)
     char *p;
 
     // find the equals
-    
+
     p = strchr(line, '=');
 
     if (p == NULL)
@@ -194,11 +187,11 @@ boolean DEH_ParseAssignment(char *line, char **variable_name, char **value)
 
     *p = '\0';
     *variable_name = CleanString(line);
-    
+
     // value immediately follows the '='
-    
+
     *value = CleanString(p+1);
-    
+
     return true;
 }
 
@@ -209,7 +202,7 @@ static boolean CheckSignatures(deh_context_t *context)
 {
     size_t i;
     char *line;
-    
+
     // [crispy] save pointer to start of line (should be 0 here)
     DEH_SaveLineStart(context);
 
@@ -257,7 +250,7 @@ static void DEH_ParseComment(char *comment)
 
     // Allow comments containing this special value to allow string
     // replacements longer than those permitted by DOS dehacked.
-    // This allows us to use a dehacked patch for doing string 
+    // This allows us to use a dehacked patch for doing string
     // replacements for emulating Chex Quest.
     //
     // If you use this, your dehacked patch may not work in Vanilla
