@@ -7,6 +7,7 @@ mod c_ffi;
 mod d_game;
 mod m_argv;
 mod m_fixed;
+mod m_box;
 
 use m_argv::{DArgv};
 use d_game::{DGame};
