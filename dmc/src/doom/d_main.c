@@ -1072,31 +1072,8 @@ void D_DoomMain(char* iwadfile)
 
     // find which dir to use for config files
 
-#ifdef _WIN32
-
-  //!
-  // @category obscure
-  // @platform windows
-  // @vanilla
-  //
-  // Save configuration data and savegames in c:\doomdata,
-  // allowing play from CD.
-  //
-
-  if (M_ParmExists("-cdrom"))
-  {
-    printf(D_CDROM);
-
-    M_SetConfigDir("c:\\doomdata\\");
-  }
-  else
-#endif
-  {
-    // Auto-detect the configuration dir.
-
-    M_SetConfigDir(NULL);
-  }
-
+  // Auto-detect the configuration dir.
+  M_SetConfigDir(NULL);
 
   // Turbo mode.  The player's speed is multiplied by x%.  If unspecified,
   // x defaults to 200.  Values are rounded up to 10 and down to 400.

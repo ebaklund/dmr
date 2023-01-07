@@ -1644,36 +1644,6 @@ void G_InitNew(skill_t skill, int episode, int map)
     S_ResumeSound();
   }
 
-  /*
-  // Note: This commented-out block of code was added at some point
-  // between the DOS version(s) and the Doom source release. It isn't
-  // found in disassemblies of the DOS version and causes IDCLEV and
-  // the -warp command line parameter to behave differently.
-  // This is left here for posterity.
-
-  // This was quite messy with SPECIAL and commented parts.
-  // Supposedly hacks to make the latest edition work.
-  // It might not work properly.
-  if (episode < 1)
-    episode = 1;
-
-  if ( gamemode == retail )
-  {
-    if (episode > 4)
-      episode = 4;
-  }
-  else if ( gamemode == shareware )
-  {
-    if (episode > 1)
-         episode = 1;	// only start episode 1 on shareware
-  }
-  else
-  {
-    if (episode > 3)
-      episode = 3;
-  }
-  */
-
   if (skill > sk_nightmare)
     skill = sk_nightmare;
 
