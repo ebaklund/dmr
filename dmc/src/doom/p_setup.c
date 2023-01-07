@@ -1179,8 +1179,6 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
   // preload graphics
   if (precache)
     R_PrecacheLevel();
-
-  // printf ("free memory: 0x%x\n", Z_FreeMemory());
 }
 
 // [crispy] height of the spawnstate's first sprite in pixels
