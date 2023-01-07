@@ -568,14 +568,6 @@ static char *GetFullPath(const char *musicdir, const char *path)
         return M_StringDuplicate(path);
     }
 
-#ifdef _WIN32
-    // d:\path\...
-    if (isalpha(path[0]) && path[1] == ':' && path[2] == DIR_SEPARATOR)
-    {
-        return M_StringDuplicate(path);
-    }
-#endif
-
     // Paths in the substitute filenames can contain Unix-style /
     // path separators, but we should convert this to the separator
     // for the native platform.

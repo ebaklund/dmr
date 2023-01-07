@@ -117,17 +117,8 @@ void InitBindings(void)
 
 static void SetExecutable(mission_config_t *config)
 {
-    char *extension;
-
     free(executable);
-
-#ifdef _WIN32
-    extension = ".exe";
-#else
-    extension = "";
-#endif
-
-    executable = M_StringJoin(config->executable, extension, NULL);
+    executable = M_StringJoin(config->executable, "", NULL);
 }
 
 static void SetMission(mission_config_t *config)

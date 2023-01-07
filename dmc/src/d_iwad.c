@@ -311,27 +311,9 @@ static void BuildIWADDirList(void)
         AddIWADPath(env, "");
     }
 
-#ifdef _WIN32
-
-    // Search the registry and find where IWADs have been installed.
-
-    CheckUninstallStrings();
-    CheckInstallRootPaths();
-    CheckSteamEdition();
-    CheckDOSDefaults();
-
-    // Check for GUS patches installed with the BFG edition!
-
-    CheckSteamGUSPatches();
-
-#else
     AddXdgDirs();
-#ifndef __MACOSX__
-#endif
-#endif
 
     // Don't run this function again.
-
     iwad_dirs_built = true;
 }
 

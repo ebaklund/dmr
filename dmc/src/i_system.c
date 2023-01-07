@@ -20,20 +20,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
 #include <stdarg.h>
-
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#else
 #include <unistd.h>
-#endif
 
 #include "SDL.h"
 
 #include "config.h"
-
 #include "deh_str.h"
 #include "doomtype.h"
 #include "m_argv.h"
@@ -202,12 +194,7 @@ void I_PrintStartupBanner(const char *gamedescription)
 
 boolean I_ConsoleStdout(void)
 {
-#ifdef _WIN32
-    // SDL "helpfully" always redirects stdout to a file.
-    return false;
-#else
     return isatty(fileno(stdout));
-#endif
 }
 
 //

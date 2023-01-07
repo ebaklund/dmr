@@ -31,10 +31,6 @@
 #define HAVE_BSD_SPEAKER
 #endif
 
-#ifdef _WIN32
-extern pcsound_driver_t pcsound_win32_driver;
-#endif
-
 #ifdef HAVE_BSD_SPEAKER
 extern pcsound_driver_t pcsound_bsd_driver;
 #endif
@@ -45,16 +41,13 @@ extern pcsound_driver_t pcsound_linux_driver;
 
 extern pcsound_driver_t pcsound_sdl_driver;
 
-static pcsound_driver_t *drivers[] = 
+static pcsound_driver_t *drivers[] =
 {
 #ifdef HAVE_LINUX_KD_H
     &pcsound_linux_driver,
 #endif
 #ifdef HAVE_BSD_SPEAKER
     &pcsound_bsd_driver,
-#endif
-#ifdef _WIN32
-    &pcsound_win32_driver,
 #endif
     &pcsound_sdl_driver,
     NULL,
@@ -110,14 +103,14 @@ int PCSound_Init(pcsound_callback_func callback_func)
 
         for (i=0; drivers[i] != NULL; ++i)
         {
-            if (drivers[i]->init_func(callback_func)) 
+            if (drivers[i]->init_func(callback_func))
             {
                 pcsound_driver = drivers[i];
                 break;
             }
         }
     }
-    
+
     if (pcsound_driver != NULL)
     {
         printf("Using PC sound driver: %s\n", pcsound_driver->name);
