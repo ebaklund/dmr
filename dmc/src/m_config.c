@@ -2529,8 +2529,6 @@ float M_GetFloatVariable(const char *name)
 
 static char *GetDefaultConfigDir(void)
 {
-#if !defined(_WIN32) || defined(_WIN32_WCE)
-
     // Configuration settings are stored in an OS-appropriate path
     // determined by SDL.  On typical Unix systems, this might be
     // ~/.local/share/chocolate-doom.  On Windows, we behave like
@@ -2546,7 +2544,7 @@ static char *GetDefaultConfigDir(void)
         SDL_free(result);
         return copy;
     }
-#endif /* #ifndef _WIN32 */
+
     return M_StringDuplicate("");
 }
 

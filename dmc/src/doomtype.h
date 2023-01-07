@@ -59,12 +59,7 @@
 
 #ifdef __GNUC__
 
-#if defined(_WIN32) && !defined(__clang__)
-#define PACKEDATTR __attribute__((packed,gcc_struct))
-#else
 #define PACKEDATTR __attribute__((packed))
-#endif
-
 #define PRINTF_ATTR(fmt, first) __attribute__((format(printf, fmt, first)))
 #define PRINTF_ARG_ATTR(x) __attribute__((format_arg(x)))
 #define NORETURN __attribute__((noreturn))

@@ -25,8 +25,6 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
 
-#include "i_midipipe.h"
-
 #include "config.h"
 #include "doomtype.h"
 #include "memio.h"
@@ -48,7 +46,7 @@
 
 static boolean music_initialized = false;
 
-// If this is true, this module initialized SDL sound and has the 
+// If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
 
 static boolean sdl_was_initialized = false;
@@ -140,9 +138,6 @@ static void I_SDL_ShutdownMusic(void)
 {
     if (music_initialized)
     {
-#if defined(_WIN32)
-        I_MidiPipe_ShutdownServer();
-#endif
         Mix_HaltMusic();
         music_initialized = false;
 
@@ -214,11 +209,6 @@ static boolean I_SDL_InitMusic(void)
         Mix_SetMusicCMD(snd_musiccmd);
     }
 
-#if defined(_WIN32)
-    // [AM] Start up midiproc to handle playing MIDI music.
-    I_MidiPipe_InitServer();
-#endif
-
     return music_initialized;
 }
 
@@ -240,9 +230,6 @@ static void UpdateMusicVolume(void)
         vol = (current_music_volume * MIX_MAX_VOLUME) / 127;
     }
 
-#if defined(_WIN32)
-    I_MidiPipe_SetVolume(vol);
-#endif
     Mix_VolumeMusic(vol);
 }
 
@@ -267,7 +254,7 @@ static void I_SDL_PlaySong(void *handle, boolean looping)
         return;
     }
 
-    if (handle == NULL && !midi_server_registered)
+    if (handle == NULL)
     {
         return;
     }
@@ -281,16 +268,8 @@ static void I_SDL_PlaySong(void *handle, boolean looping)
         loops = 1;
     }
 
-#if defined(_WIN32)
-    if (midi_server_registered)
-    {
-        I_MidiPipe_PlaySong(loops);
-    }
-    else
-#endif
-    {
-        Mix_PlayMusic((Mix_Music *) handle, loops);
-    }
+
+    Mix_PlayMusic((Mix_Music *) handle, loops);
 }
 
 static void I_SDL_PauseSong(void)
@@ -324,16 +303,7 @@ static void I_SDL_StopSong(void)
         return;
     }
 
-#if defined(_WIN32)
-    if (midi_server_registered)
-    {
-        I_MidiPipe_StopSong();
-    }
-    else
-#endif
-    {
-        Mix_HaltMusic();
-    }
+    Mix_HaltMusic();
 }
 
 static void I_SDL_UnRegisterSong(void *handle)
@@ -345,22 +315,13 @@ static void I_SDL_UnRegisterSong(void *handle)
         return;
     }
 
-#if defined(_WIN32)
-    if (midi_server_registered)
+    if (handle != NULL)
     {
-        I_MidiPipe_UnregisterSong();
-    }
-    else
-#endif
-    {
-        if (handle != NULL)
-        {
-            Mix_FreeMusic(music);
-        }
+        Mix_FreeMusic(music);
     }
 }
 
-// Determine whether memory block is a .mid file 
+// Determine whether memory block is a .mid file
 
 // [crispy] Reverse Choco's logic from "if (MIDI)" to "if (not MUS)"
 /*
@@ -432,37 +393,21 @@ static void *I_SDL_RegisterSong(void *data, int len)
     // by now, but Mix_SetMusicCMD() only works with Mix_LoadMUS(), so
     // we have to generate a temporary file.
 
-#if defined(_WIN32)
-    // [AM] If we do not have an external music command defined, play
-    //      music with the MIDI server.
-    if (midi_server_initialized)
+    music = Mix_LoadMUS(filename);
+    if (music == NULL)
     {
-        music = NULL;
-        if (!I_MidiPipe_RegisterSong(filename))
-        {
-            fprintf(stderr, "Error loading midi: %s\n",
-                "Could not communicate with midiproc.");
-        }
+        // Failed to load
+        fprintf(stderr, "Error loading midi: %s\n", Mix_GetError());
     }
-    else
-#endif
+
+    // Remove the temporary MIDI file; however, when using an external
+    // MIDI program we can't delete the file. Otherwise, the program
+    // won't find the file to play. This means we leave a mess on
+    // disk :(
+
+    if (strlen(snd_musiccmd) == 0)
     {
-        music = Mix_LoadMUS(filename);
-        if (music == NULL)
-        {
-            // Failed to load
-            fprintf(stderr, "Error loading midi: %s\n", Mix_GetError());
-        }
-
-        // Remove the temporary MIDI file; however, when using an external
-        // MIDI program we can't delete the file. Otherwise, the program
-        // won't find the file to play. This means we leave a mess on
-        // disk :(
-
-        if (strlen(snd_musiccmd) == 0)
-        {
-            remove(filename);
-        }
+        remove(filename);
     }
 
     free(filename);
