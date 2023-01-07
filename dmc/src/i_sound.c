@@ -28,6 +28,7 @@
 #include "i_video.h"
 #include "m_argv.h"
 #include "m_config.h"
+#include "m_misc.h"
 
 // Sound sample rate to use for digital output (Hz)
 
@@ -71,7 +72,6 @@ static music_module_t *active_music_module;
 extern void I_InitTimidityConfig(void);
 extern sound_module_t sound_sdl_module;
 extern sound_module_t sound_pcsound_module;
-extern music_module_t music_sdl_module;
 extern music_module_t music_opl_module;
 extern music_module_t music_pack_module;
 
@@ -83,7 +83,7 @@ extern int opl_io_port;
 // For native music module:
 
 extern char *music_pack_path;
-extern char *timidity_cfg_path;
+char *timidity_cfg_path = "";
 
 // DOS-specific options: These are unused but should be maintained
 // so that the config file can be shared between chocolate
@@ -96,19 +96,10 @@ static int snd_mport = 0;
 
 // Compiled-in sound modules:
 
-static sound_module_t *sound_modules[] = 
+static sound_module_t *sound_modules[] =
 {
     &sound_sdl_module,
     &sound_pcsound_module,
-    NULL,
-};
-
-// Compiled-in music modules:
-
-static music_module_t *music_modules[] =
-{
-    &music_sdl_module,
-    &music_opl_module,
     NULL,
 };
 
@@ -144,7 +135,7 @@ static void InitSfxModule(boolean use_sfx_prefix)
         // Is the sfx device in the list of devices supported by
         // this module?
 
-        if (SndDeviceInList(snd_sfxdevice, 
+        if (SndDeviceInList(snd_sfxdevice,
                             sound_modules[i]->sound_devices,
                             sound_modules[i]->num_sound_devices))
         {
@@ -163,26 +154,16 @@ static void InitSfxModule(boolean use_sfx_prefix)
 
 static void InitMusicModule(void)
 {
-    int i;
-
-    music_module = NULL;
-
-    for (i=0; music_modules[i] != NULL; ++i)
+    if (SndDeviceInList(snd_musicdevice,
+                        music_opl_module.sound_devices,
+                        music_opl_module.num_sound_devices))
     {
-        // Is the music device in the list of devices supported
-        // by this module?
+        // Initialize the module
 
-        if (SndDeviceInList(snd_musicdevice, 
-                            music_modules[i]->sound_devices,
-                            music_modules[i]->num_sound_devices))
+        if (music_opl_module.Init())
         {
-            // Initialize the module
-
-            if (music_modules[i]->Init())
-            {
-                music_module = music_modules[i];
-                return;
-            }
+            music_module = &music_opl_module;
+            return;
         }
     }
 }
@@ -208,7 +189,7 @@ void I_InitSound(boolean use_sfx_prefix)
     //!
     // @vanilla
     //
-    // Disable sound effects. 
+    // Disable sound effects.
     //
 
     nosfx = M_CheckParm("-nosfx") > 0;
@@ -513,3 +494,68 @@ void I_BindSoundVariables(void)
     M_BindFloatVariable("libsamplerate_scale",   &libsamplerate_scale);
 }
 
+static char *temp_timidity_cfg = NULL;
+
+
+// If the temp_timidity_cfg config variable is set, generate a "wrapper"
+// config file for Timidity to point to the actual config file. This
+// is needed to inject a "dir" command so that the patches are read
+// relative to the actual config file.
+
+static boolean WriteWrapperTimidityConfig(char *write_path)
+{
+    char *path;
+    FILE *fstream;
+
+    if (!strcmp(timidity_cfg_path, ""))
+    {
+        return false;
+    }
+
+    fstream = fopen(write_path, "w");
+
+    if (fstream == NULL)
+    {
+        return false;
+    }
+
+    path = M_DirName(timidity_cfg_path);
+    fprintf(fstream, "dir %s\n", path);
+    free(path);
+
+    fprintf(fstream, "source %s\n", timidity_cfg_path);
+    fclose(fstream);
+
+    return true;
+}
+
+void I_InitTimidityConfig(void)
+{
+    char *env_string;
+    boolean success;
+
+    temp_timidity_cfg = M_TempFile("timidity.cfg");
+
+    if (snd_musicdevice == SNDDEVICE_GUS)
+    {
+        success = GUS_WriteConfig(temp_timidity_cfg);
+    }
+    else
+    {
+        success = WriteWrapperTimidityConfig(temp_timidity_cfg);
+    }
+
+    // Set the TIMIDITY_CFG environment variable to point to the temporary
+    // config file.
+
+    if (success)
+    {
+        env_string = M_StringJoin("TIMIDITY_CFG=", temp_timidity_cfg, NULL);
+        putenv(env_string);
+    }
+    else
+    {
+        free(temp_timidity_cfg);
+        temp_timidity_cfg = NULL;
+    }
+}

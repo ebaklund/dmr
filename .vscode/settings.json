@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "start-local-dev-cluster": "shellscript",
+    "m_misc.h": "c"
+  }
+}
