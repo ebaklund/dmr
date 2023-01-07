@@ -643,7 +643,7 @@ void M_DrawReadThisCommercial(void)
 //
 void M_DrawSound(void)
 {
-  V_DrawPatchDirect(60, 38, W_CacheLumpName(DEH_String("M_SVOL"), PU_CACHE));
+  V_DrawPatch(60, 38, W_CacheLumpName(DEH_String("M_SVOL"), PU_CACHE));
 
   M_DrawThermo(SoundDef.x, SoundDef.y + LINEHEIGHT * (sfx_vol + 1), 16,
                sfxVolume);
@@ -696,7 +696,7 @@ void M_MusicVol(int choice)
 //
 void M_DrawMainMenu(void)
 {
-  V_DrawPatchDirect(94, 2, W_CacheLumpName(DEH_String("M_DOOM"), PU_CACHE));
+  V_DrawPatch(94, 2, W_CacheLumpName(DEH_String("M_DOOM"), PU_CACHE));
 }
 
 //
@@ -704,8 +704,8 @@ void M_DrawMainMenu(void)
 //
 void M_DrawNewGame(void)
 {
-  V_DrawPatchDirect(96, 14, W_CacheLumpName(DEH_String("M_NEWG"), PU_CACHE));
-  V_DrawPatchDirect(54, 38, W_CacheLumpName(DEH_String("M_SKILL"), PU_CACHE));
+  V_DrawPatch(96, 14, W_CacheLumpName(DEH_String("M_NEWG"), PU_CACHE));
+  V_DrawPatch(54, 38, W_CacheLumpName(DEH_String("M_SKILL"), PU_CACHE));
 }
 
 void M_NewGame(int choice)
@@ -737,7 +737,7 @@ int epi;
 
 void M_DrawEpisode(void)
 {
-  V_DrawPatchDirect(54, 38, W_CacheLumpName(DEH_String("M_EPISOD"), PU_CACHE));
+  V_DrawPatch(54, 38, W_CacheLumpName(DEH_String("M_EPISOD"), PU_CACHE));
 }
 
 void M_VerifyNightmare(int key)
@@ -791,11 +791,11 @@ static const char *msgNames[2] = {"M_MSGOFF","M_MSGON"};
 
 void M_DrawOptions(void)
 {
-  V_DrawPatchDirect(108, 15, W_CacheLumpName(DEH_String("M_OPTTTL"), PU_CACHE));
+  V_DrawPatch(108, 15, W_CacheLumpName(DEH_String("M_OPTTTL"), PU_CACHE));
 
   // [crispy] no patches are drawn in the Options menu anymore
   /*
-      V_DrawPatchDirect(OptionsDef.x + 175, OptionsDef.y + LINEHEIGHT * detail,
+      V_DrawPatch(OptionsDef.x + 175, OptionsDef.y + LINEHEIGHT * detail,
                         W_CacheLumpName(DEH_String(detailNames[detailLevel]),
                                         PU_CACHE));
   */
@@ -807,7 +807,7 @@ void M_DrawOptions(void)
 
   // [crispy] no patches are drawn in the Options menu anymore
   /*
-      V_DrawPatchDirect(OptionsDef.x + 120, OptionsDef.y + LINEHEIGHT *
+      V_DrawPatch(OptionsDef.x + 120, OptionsDef.y + LINEHEIGHT *
      messages, W_CacheLumpName(DEH_String(msgNames[showMessages]), PU_CACHE));
   */
   M_WriteText(
@@ -824,7 +824,7 @@ static void M_DrawMouse(void)
 {
   char mouse_menu_text[48];
 
-  V_DrawPatchDirect(60, LoadDef_y,
+  V_DrawPatch(60, LoadDef_y,
                     W_CacheLumpName(DEH_String("M_MSENS"), PU_CACHE));
 
   M_WriteText(MouseDef.x, MouseDef.y + LINEHEIGHT * mouse_horiz + 6,
@@ -1347,14 +1347,14 @@ void M_DrawThermo(int x, int y, int thermWidth, int thermDot)
   }
 
   xx = x;
-  V_DrawPatchDirect(xx, y, W_CacheLumpName(DEH_String("M_THERML"), PU_CACHE));
+  V_DrawPatch(xx, y, W_CacheLumpName(DEH_String("M_THERML"), PU_CACHE));
   xx += 8;
   for (i = 0; i < thermWidth; i++)
   {
-    V_DrawPatchDirect(xx, y, W_CacheLumpName(DEH_String("M_THERMM"), PU_CACHE));
+    V_DrawPatch(xx, y, W_CacheLumpName(DEH_String("M_THERMM"), PU_CACHE));
     xx += 8;
   }
-  V_DrawPatchDirect(xx, y, W_CacheLumpName(DEH_String("M_THERMR"), PU_CACHE));
+  V_DrawPatch(xx, y, W_CacheLumpName(DEH_String("M_THERMR"), PU_CACHE));
 
   M_snprintf(num, 4, "%3d", thermDot);
   M_WriteText(xx + 8, y + 3, num);
@@ -1366,7 +1366,7 @@ void M_DrawThermo(int x, int y, int thermWidth, int thermDot)
     dp_translation = cr[CR_DARK];
   }
 
-  V_DrawPatchDirect((x + 8) + thermDot * 8, y,
+  V_DrawPatch((x + 8) + thermDot * 8, y,
                     W_CacheLumpName(DEH_String("M_THERMO"), PU_CACHE));
 
   dp_translation = NULL;
@@ -1483,7 +1483,7 @@ void M_WriteText(int x, int y, const char* string)
     w = SHORT(hu_font[c]->width);
     if (cx + w > ORIGWIDTH)
       break;
-    V_DrawPatchDirect(cx, cy, hu_font[c]);
+    V_DrawPatch(cx, cy, hu_font[c]);
     cx += w;
   }
 }
@@ -2215,7 +2215,7 @@ void M_Drawer(void)
           M_WriteText(x, y + 8 - (M_StringHeight(alttext) / 2), alttext);
       }
       else if (W_CheckNumForName(name) > 0)  // [crispy] ...here
-        V_DrawPatchDirect(x, y, W_CacheLumpName(name, PU_CACHE));
+        V_DrawPatch(x, y, W_CacheLumpName(name, PU_CACHE));
 
       dp_translation = NULL;
     }
@@ -2233,7 +2233,7 @@ void M_Drawer(void)
     dp_translation = NULL;
   }
   else
-    V_DrawPatchDirect(
+    V_DrawPatch(
         x + SKULLXOFF, currentMenu->y - 5 + itemOn * LINEHEIGHT,
         W_CacheLumpName(DEH_String(skullName[whichSkull]), PU_CACHE));
 }

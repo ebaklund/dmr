@@ -61,7 +61,6 @@ void V_DrawTLPatch(int x, int y, patch_t *patch);
 void V_DrawAltTLPatch(int x, int y, patch_t * patch);
 void V_DrawShadowedPatch(int x, int y, patch_t *patch);
 void V_DrawXlaPatch(int x, int y, patch_t * patch);     // villsa ..
-void V_DrawPatchDirect(int x, int y, patch_t *patch);
 void V_DrawPatchFullScreen(patch_t *patch, boolean flipped);
 
 // Draw a linear block of pixels into the view buffer.

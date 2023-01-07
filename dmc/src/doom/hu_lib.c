@@ -133,7 +133,7 @@ HUlib_drawTextLine
 	    w = SHORT(l->f[c - l->sc]->width);
 	    if (x+w > ORIGWIDTH)
 		break;
-	    V_DrawPatchDirect(x, y, l->f[c - l->sc]);
+	    V_DrawPatch(x, y, l->f[c - l->sc]);
 	    x += w;
 	}
 	else
@@ -148,7 +148,7 @@ HUlib_drawTextLine
     if (drawcursor
 	&& x + SHORT(l->f['_' - l->sc]->width) <= ORIGWIDTH)
     {
-	V_DrawPatchDirect(x, y, l->f['_' - l->sc]);
+	V_DrawPatch(x, y, l->f['_' - l->sc]);
     }
 }
 
@@ -264,7 +264,7 @@ void HUlib_drawSText(hu_stext_t* s)
 	idx = s->cl - i;
 	if (idx < 0)
 	    idx += s->h; // handle queue of lines
-	
+
 	l = &s->l[idx];
 
 	// need a decision made here on whether to skip the draw
@@ -343,13 +343,13 @@ HUlib_keyInIText
 {
     ch = toupper(ch);
 
-    if (ch >= ' ' && ch <= '_') 
+    if (ch >= ' ' && ch <= '_')
   	HUlib_addCharToTextLine(&it->l, (char) ch);
-    else 
-	if (ch == KEY_BACKSPACE) 
+    else
+	if (ch == KEY_BACKSPACE)
 	    HUlib_delCharFromIText(it);
-	else 
-	    if (ch != KEY_ENTER) 
+	else
+	    if (ch != KEY_ENTER)
 		return false; // did not eat key
 
     return true; // ate the key
