@@ -4,6 +4,7 @@ extern crate libc;
 use libc::{c_char, c_int};
 
 mod c_ffi;
+mod d_event;
 mod d_game;
 mod m_argv;
 mod m_fixed;
