@@ -18,7 +18,6 @@
 
 #include "SDL.h"
 
-#include "joystick.h"
 #include "i_joystick.h"
 #include "i_system.h"
 #include "m_controls.h"
@@ -31,6 +30,8 @@
 #include "txt_utf8.h"
 
 #define JOYSTICK_AXIS_WIDTH 20
+
+int joystick_index = -1;
 
 static const char *CalibrationLabel(txt_joystick_axis_t *joystick_axis)
 {
@@ -141,7 +142,7 @@ static boolean CalibrateAxis(txt_joystick_axis_t *joystick_axis)
     int i;
 
     // Check all axes to find which axis has the largest value.  We test
-    // for one axis at a time, so eg. when we prompt to push the joystick 
+    // for one axis at a time, so eg. when we prompt to push the joystick
     // left, whichever axis has the largest value is the left axis.
 
     best_axis = 0;

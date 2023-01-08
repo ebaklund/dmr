@@ -20,7 +20,6 @@
 
 #include "execute.h"
 #include "txt_keyinput.h"
-#include "joystick.h"
 #include "keyboard.h"
 
 #define WINDOW_HELP_URL "https://www.chocolate-doom.org/setup-keyboard"

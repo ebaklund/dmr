@@ -1214,13 +1214,11 @@ int quitsounds2[8] = {sfx_vilact, sfx_getpow, sfx_boscub, sfx_slop,
 
 void M_QuitResponse(int key)
 {
-  extern int show_endoom;
-
   if (key != key_menu_confirm)
     return;
 
   // [crispy] play quit sound only if the ENDOOM screen is also shown
-  if (!netgame && show_endoom)
+  if (!netgame)
   {
     S_StartSound(NULL, quitsounds[(gametic >> 2) & 7]);
     I_WaitVBL(105);

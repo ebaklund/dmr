@@ -100,8 +100,6 @@ boolean main_loop_started = false;
 char wadfile[1024];  // primary wad file
 char mapdir[1024];   // directory of development maps
 
-//int show_endoom = 0;  // [crispy] disable
-extern int show_endoom;  // [crispy] disable
 int show_diskicon = 1;
 
 char* nervewadfile = NULL;
@@ -358,7 +356,6 @@ void D_BindVariables(void)
   // [crispy] unconditionally disable savegame and demo limits
   //  M_BindIntVariable("vanilla_savegame_limit", &vanilla_savegame_limit);
   //  M_BindIntVariable("vanilla_demo_limit",     &vanilla_demo_limit);
-  M_BindIntVariable("show_endoom", &show_endoom);
   M_BindIntVariable("show_diskicon", &show_diskicon);
 
   // Multiplayer chat macros

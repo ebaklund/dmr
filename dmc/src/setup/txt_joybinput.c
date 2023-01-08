@@ -19,7 +19,6 @@
 #include "SDL_joystick.h"
 
 #include "doomkeys.h"
-#include "joystick.h"
 #include "i_joystick.h"
 #include "i_system.h"
 #include "m_controls.h"
@@ -193,6 +192,8 @@ static void OpenErrorWindow(void)
 {
     TXT_MessageBox(NULL, "Please configure a controller first!");
 }
+
+extern int joystick_index;
 
 static void OpenPromptWindow(txt_joystick_input_t *joystick_input)
 {

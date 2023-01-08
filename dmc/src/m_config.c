@@ -786,13 +786,6 @@ static default_t extra_defaults_list[] =
     CONFIG_VARIABLE_INT(graphical_startup),
 
     //!
-    // If non-zero, the ENDOOM text screen is displayed when exiting the
-    // game. If zero, the ENDOOM screen is not displayed.
-    //
-
-    CONFIG_VARIABLE_INT(show_endoom),
-
-    //!
     // If non-zero, a disk activity indicator is displayed when data is read
     // from disk. If zero, the disk activity indicator is not displayed.
     //

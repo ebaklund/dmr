@@ -106,8 +106,7 @@ int usemouse = 1;
 
 // Save screenshots in PNG format.
 
-//int png_screenshots = 1; // [crispy]
-extern int png_screenshots; // [crispy]
+int png_screenshots = 1; // [crispy]
 
 // SDL video driver name
 
