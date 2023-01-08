@@ -34,8 +34,6 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "mouse.h"
-#include "sound.h"
-
 #include "mode.h"
 
 // GameMission_t gamemission;
@@ -109,7 +107,6 @@ void InitBindings(void)
     BindJoystickVariables();
     BindKeyboardVariables();
     BindMouseVariables();
-    BindSoundVariables();
     BindMiscVariables();
 }
 

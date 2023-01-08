@@ -30,6 +30,9 @@
 #include "m_config.h"
 #include "m_misc.h"
 
+char *snd_dmxoption = "-opl3"; // [crispy] default to OPL3 emulation
+int opl_io_port = 0x388;
+
 // Sound sample rate to use for digital output (Hz)
 
 int snd_samplerate = 44100;
