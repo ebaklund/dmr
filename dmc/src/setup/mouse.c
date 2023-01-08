@@ -22,8 +22,6 @@
 
 #include "execute.h"
 #include "txt_mouseinput.h"
-
-#include "mode.h"
 #include "mouse.h"
 
 #define WINDOW_HELP_URL "https://www.chocolate-doom.org/setup-mouse"

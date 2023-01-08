@@ -18,8 +18,6 @@
 #include "textscreen.h"
 #include "m_config.h"
 #include "m_misc.h"
-#include "mode.h"
-
 #include "display.h"
 #include "config.h"
 

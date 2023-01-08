@@ -28,10 +28,10 @@
 
 #include "config.h"
 #include "execute.h"
-#include "mode.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "../m_argv.h"
 
 struct execute_context_s
 {
@@ -216,7 +216,7 @@ int ExecuteDoom(execute_context_t *context)
 
     // Run Doom
 
-    result = ExecuteCommand(GetExecutableName(), response_file_arg);
+    result = ExecuteCommand(M_GetExecutableName(), response_file_arg);
 
     free(response_file_arg);
 

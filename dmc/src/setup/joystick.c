@@ -25,7 +25,6 @@
 
 #include "execute.h"
 #include "joystick.h"
-#include "mode.h"
 #include "txt_joyaxis.h"
 #include "txt_joybinput.h"
 

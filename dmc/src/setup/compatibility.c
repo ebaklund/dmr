@@ -19,8 +19,6 @@
 #include "crispy.h"
 #include "m_config.h"
 #include "textscreen.h"
-#include "mode.h"
-
 #include "compatibility.h"
 
 #define WINDOW_HELP_URL "https://www.chocolate-doom.org/setup-compat"

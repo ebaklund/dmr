@@ -20,8 +20,6 @@
 
 #include "execute.h"
 #include "txt_keyinput.h"
-
-#include "mode.h"
 #include "joystick.h"
 #include "keyboard.h"
 
