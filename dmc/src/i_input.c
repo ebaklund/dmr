@@ -87,8 +87,7 @@ int novert = 1; // [crispy]
 // The sensible thing to do is to disable this if you have a non-US
 // keyboard.
 
-// int vanilla_keyboard_mapping = true;
-extern int vanilla_keyboard_mapping;
+int vanilla_keyboard_mapping = true;
 
 // Mouse acceleration
 //
