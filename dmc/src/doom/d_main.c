@@ -51,7 +51,6 @@
 #include "m_menu.h"
 #include "m_misc.h"
 
-#include "i_endoom.h"
 #include "i_input.h"
 #include "i_joystick.h"
 #include "i_system.h"
@@ -998,22 +997,6 @@ void PrintGameVersion(void)
 // Called at exit to display the ENDOOM screen (ENDTEXT in Heretic)
 //
 
-static void D_Endoom(void)
-{
-    byte *endoom_data;
-
-    // Disable ENDOOM?
-
-    if (!show_endoom || testcontrols || !main_loop_started)
-    {
-        return;
-    }
-
-    endoom_data = W_CacheLumpName(DEH_String("ENDTEXT"), PU_STATIC);
-
-    I_Endoom(endoom_data);
-}
-
 // Load dehacked patches needed for certain IWADs.
 static void LoadIwadDeh(void)
 {
@@ -1041,8 +1024,6 @@ void D_DoomMain(char* iwadfile)
   char file[256];
   char demolumpname[9];
   int numiwadlumps;
-
-  I_AtExit(D_Endoom, false);  // Eba Missing implementation
 
   /* EBA */
 
