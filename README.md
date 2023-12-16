@@ -4,6 +4,9 @@ https://github.com/fabiangreffrath/crispy-doom
 ### Preparations
 Download source code and install prerequisites
 ```
+$ sudo apt install libsdl2-dev
+$ sudo apt install libsdl2-mixer-dev
+$ sudo apt install libpng-dev
 $ git clone https://github.com/ebaklund/dmr.git
 ```
 
