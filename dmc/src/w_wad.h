@@ -49,7 +49,6 @@ struct lumpinfo_s
     lumpindex_t next;
 };
 
-
 extern lumpinfo_t **lumpinfo;
 extern unsigned int numlumps;
 
