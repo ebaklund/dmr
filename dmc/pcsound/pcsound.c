@@ -31,24 +31,10 @@
 #define HAVE_BSD_SPEAKER
 #endif
 
-#ifdef HAVE_BSD_SPEAKER
-extern pcsound_driver_t pcsound_bsd_driver;
-#endif
-
-#ifdef HAVE_LINUX_KD_H
-extern pcsound_driver_t pcsound_linux_driver;
-#endif
-
 extern pcsound_driver_t pcsound_sdl_driver;
 
 static pcsound_driver_t *drivers[] =
 {
-#ifdef HAVE_LINUX_KD_H
-    &pcsound_linux_driver,
-#endif
-#ifdef HAVE_BSD_SPEAKER
-    &pcsound_bsd_driver,
-#endif
     &pcsound_sdl_driver,
     NULL,
 };
