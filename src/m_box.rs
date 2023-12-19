@@ -1,17 +1,13 @@
-
-pub struct Rect
-{
+pub struct Rect {
     top: i32,
     bot: i32,
     left: i32,
-    right: i32
+    right: i32,
 }
 
 #[no_mangle]
-pub extern "C" fn M_ClearBox(rectp: *mut Rect)
-{
-    unsafe
-    {
+pub extern "C" fn M_ClearBox(rectp: *mut Rect) {
+    unsafe {
         let rect = &mut *rectp;
 
         rect.top = i32::MIN;
@@ -22,27 +18,19 @@ pub extern "C" fn M_ClearBox(rectp: *mut Rect)
 }
 
 #[no_mangle]
-pub extern "C" fn M_AddToBox(rectp: *mut Rect, x: i32, y: i32)
-{
-    unsafe
-    {
+pub extern "C" fn M_AddToBox(rectp: *mut Rect, x: i32, y: i32) {
+    unsafe {
         let rect = &mut *rectp;
 
-        if x < rect.left
-        {
+        if x < rect.left {
             rect.left = x;
-        }
-        else if rect.right < x
-        {
+        } else if rect.right < x {
             rect.right = x;
         }
 
-        if y < rect.bot
-        {
+        if y < rect.bot {
             rect.bot = y;
-        }
-        else if rect.top < y
-        {
+        } else if rect.top < y {
             rect.top = y;
         }
     }
