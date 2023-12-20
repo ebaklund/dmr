@@ -2,6 +2,7 @@ use std::array::TryFromSliceError;
 use std::fs::File;
 use std::io::Read;
 use std::mem::size_of;
+use std::collections::HashMap;
 
 // PRIVATE
 
@@ -71,6 +72,16 @@ fn extract_wad_body(wad_buffer: &Vec<u8>, header: &WadHeader) -> Result<Vec<WadL
     Ok(body)
 }
 
+fn extract_wad_dict(wad_body: &Vec<WadLump>) -> Result<HashMap<String, usize>, String> {
+    let mut wad_dict = HashMap::<String, usize>::new();
+
+    for i in 0..wad_body.len() {
+        wad_dict.insert(wad_body[i].name.clone(), i);
+    }
+
+    Ok(wad_dict)
+}
+
 #[derive(Debug)]
 struct WadHeader {
     wad_type: String, // Should be "IWAD" or "PWAD".
@@ -78,7 +89,7 @@ struct WadHeader {
     lumps_offset: usize,
 }
 
-struct FileLump {
+pub struct FileLump {
     pos: i32,
     size: i32,
     name: [u8; 8],
@@ -98,6 +109,7 @@ pub struct Wad {
     buffer: Vec<u8>,
     header: WadHeader,
     body: Vec<WadLump>,
+    dict: HashMap<String, usize>
 }
 
 impl Wad {
@@ -105,11 +117,13 @@ impl Wad {
         let buffer = read_wad_buffer(wad_path)?;
         let header = extract_wad_header(&buffer)?;
         let body = extract_wad_body(&buffer, &header)?;
+        let dict = extract_wad_dict(&body)?;
 
         Ok(Wad {
             buffer,
             header,
             body,
+            dict
         })
     }
 }
