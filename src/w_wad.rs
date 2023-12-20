@@ -71,6 +71,7 @@ fn extract_wad_body(wad_buffer: &Vec<u8>, header: &WadHeader) -> Result<Vec<WadL
     Ok(body)
 }
 
+#[derive(Debug)]
 struct WadHeader {
     wad_type: String, // Should be "IWAD" or "PWAD".
     lump_count: usize,
@@ -83,6 +84,7 @@ struct FileLump {
     name: [u8; 8],
 }
 
+#[derive(Debug)]
 struct WadLump {
     pos: usize,
     size: usize,
@@ -91,6 +93,7 @@ struct WadLump {
 
 // PUBLIC
 
+#[derive(Debug)]
 pub struct Wad {
     buffer: Vec<u8>,
     header: WadHeader,
