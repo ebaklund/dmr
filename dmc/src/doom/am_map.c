@@ -295,29 +295,6 @@ static void AM_rotatePoint (mpoint_t *pt);
 static mpoint_t mapcenter;
 static angle_t mapangle;
 
-// Calculates the slope and slope according to the x-axis of a line
-// segment in map coordinates (with the upright y-axis n' all) so
-// that it can be used with the brain-dead drawing stuff.
-
-void
-AM_getIslope
-( mline_t*	ml,
-  islope_t*	is )
-{
-    int dx, dy;
-
-    dy = ml->a.y - ml->b.y;
-    dx = ml->b.x - ml->a.x;
-    if (!dy) is->islp = (dx<0?-INT_MAX:INT_MAX);
-    else is->islp = FixedDiv(dx, dy);
-    if (!dx) is->slp = (dy<0?-INT_MAX:INT_MAX);
-    else is->slp = FixedDiv(dy, dx);
-
-}
-
-//
-//
-//
 void AM_activateNewScale(void)
 {
     m_x += m_w/2;
@@ -330,9 +307,6 @@ void AM_activateNewScale(void)
     m_y2 = m_y + m_h;
 }
 
-//
-//
-//
 void AM_saveScaleAndLoc(void)
 {
     old_m_x = m_x;
@@ -926,32 +900,10 @@ void AM_doFollowPlayer(void)
 }
 
 //
-//
-//
-void AM_updateLightLev(void)
-{
-    static int nexttic = 0;
-    //static int litelevels[] = { 0, 3, 5, 6, 6, 7, 7, 7 };
-    static int litelevels[] = { 0, 4, 7, 10, 12, 14, 15, 15 };
-    static int litelevelscnt = 0;
-
-    // Change light level
-    if (amclock>nexttic)
-    {
-	lightlev = litelevels[litelevelscnt++];
-	if (litelevelscnt == arrlen(litelevels)) litelevelscnt = 0;
-	nexttic = amclock + 6 - (amclock % 6);
-    }
-
-}
-
-
-//
 // Updates on Game Tick
 //
 void AM_Ticker (void)
 {
-
     if (!automapactive)
 	return;
 
@@ -967,9 +919,6 @@ void AM_Ticker (void)
     // Change x,y location
     if (m_paninc.x || m_paninc.y)
 	AM_changeWindowLoc();
-
-    // Update light level
-    // AM_updateLightLev();
 
     // [crispy] required for AM_rotatePoint()
     if (crispy->automaprotate)
@@ -1794,40 +1743,4 @@ void AM_Drawer (void)
 
     V_MarkRect(f_x, f_y, f_w, f_h);
 
-}
-
-// [crispy] extended savegames
-void AM_GetMarkPoints (int *n, long *p)
-{
-	int i;
-
-	*n = markpointnum;
-	*p = -1L;
-
-	// [crispy] prevent saving markpoints from previous map
-	if (lastlevel == gamemap && lastepisode == gameepisode)
-	{
-		for (i = 0; i < AM_NUMMARKPOINTS; i++)
-		{
-			*p++ = (long)markpoints[i].x;
-			*p++ = (markpoints[i].x == -1) ? 0L : (long)markpoints[i].y;
-		}
-	}
-}
-
-void AM_SetMarkPoints (int n, long *p)
-{
-	int i;
-
-	AM_LevelInit();
-	lastlevel = gamemap;
-	lastepisode = gameepisode;
-
-	markpointnum = n;
-
-	for (i = 0; i < AM_NUMMARKPOINTS; i++)
-	{
-		markpoints[i].x = (int64_t)*p++;
-		markpoints[i].y = (int64_t)*p++;
-	}
 }

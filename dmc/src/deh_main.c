@@ -52,24 +52,6 @@ boolean deh_allow_long_cheats = true; // [crispy] always allow
 
 boolean deh_apply_cheats = true;
 
-void DEH_Checksum(sha1_digest_t digest)
-{
-    sha1_context_t sha1_context;
-    unsigned int i;
-
-    SHA1_Init(&sha1_context);
-
-    for (i=0; deh_section_types[i] != NULL; ++i)
-    {
-        if (deh_section_types[i]->sha1_hash != NULL)
-        {
-            deh_section_types[i]->sha1_hash(&sha1_context);
-        }
-    }
-
-    SHA1_Final(digest, &sha1_context);
-}
-
 // Called on startup to call the Init functions
 
 static void InitializeSections(void)
@@ -435,28 +417,6 @@ int DEH_LoadFile(const char *filename)
     }
 
     return 1;
-}
-
-// Load all dehacked patches from the given directory.
-void DEH_AutoLoadPatches(const char *path)
-{
-    const char *filename;
-    glob_t *glob;
-
-    glob = I_StartMultiGlob(path, GLOB_FLAG_NOCASE|GLOB_FLAG_SORTED,
-                            "*.deh", "*.bex", "*.hhe", "*.seh", NULL); // [crispy] *.bex
-    for (;;)
-    {
-        filename = I_NextGlob(glob);
-        if (filename == NULL)
-        {
-            break;
-        }
-        printf(" [autoload]");
-        DEH_LoadFile(filename);
-    }
-
-    I_EndGlob(glob);
 }
 
 // Load dehacked file from WAD lump.
