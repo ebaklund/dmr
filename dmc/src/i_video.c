@@ -1034,8 +1034,8 @@ void I_InitWindowIcon(void)
 
     surface = SDL_CreateRGBSurfaceFrom((void *) icon_data, icon_w, icon_h,
                                        32, icon_w * 4,
-                                       0xff << 24, 0xff << 16,
-                                       0xff << 8, 0xff << 0);
+                                       0xffU << 24, 0xffU << 16,
+                                       0xffU << 8, 0xffU << 0);
 
     SDL_SetWindowIcon(screen, surface);
     SDL_FreeSurface(surface);

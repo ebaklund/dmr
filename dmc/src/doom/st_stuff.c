@@ -524,7 +524,6 @@ static int ST_cheat_spechits()
 {
   int i, speciallines = 0;
   boolean origcards[NUMCARDS];
-  line_t dummy;
 
   // [crispy] temporarily give all keys
   for (i = 0; i < NUMCARDS; i++)
@@ -567,7 +566,9 @@ static int ST_cheat_spechits()
   }
 
   // [crispy] trigger tag 666/667 events
+  line_t dummy;
   dummy.tag = 666;
+  
   if (gameepisode == 1)
     // Barons of Hell
     speciallines += EV_DoFloor(&dummy, lowerFloorToLowest);

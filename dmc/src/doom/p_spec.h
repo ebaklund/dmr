@@ -101,7 +101,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t* sec);
 
 int
 P_FindSectorFromLineTag
-( line_t*	line,
+( short	tag,
   int		start );
 
 int

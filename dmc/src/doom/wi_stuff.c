@@ -731,22 +731,13 @@ void WI_drawShowNextLoc(void)
     return;
   }
 
-  last = (wbs->last == 8 || wbs->last == 9) ? wbs->next - 1
-                                            : wbs->last;  // [crispy] support E1M10 "Sewers"
-
   // draw a splat on taken cities.
-  for (i = 0; i <= last; i++)
+  for (i = 0; i <= wbs->last; i++)
     WI_drawOnLnode(i, splat);
 
   // splat the secret level?
   if (wbs->didsecret)
     WI_drawOnLnode(8, splat);
-
-  // [crispy] the splat for E1M10 "Sewers" is drawn only once,
-  // i.e. now, when returning from the level
-  // (and this is not going to change)
-  if (crispy->havee1m10 && wbs->epsd == 0 && wbs->last == 9)
-    WI_drawOnLnode(9, splat);
 
   // draw flashing ptr
   if (snl_pointeron)

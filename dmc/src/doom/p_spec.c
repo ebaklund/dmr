@@ -499,37 +499,19 @@ fixed_t	P_FindHighestCeilingSurrounding(sector_t* sec)
 // RETURN NEXT SECTOR # THAT LINE TAG REFERS TO
 //
 int
-P_FindSectorFromLineTag
-( line_t*	line,
-  int		start )
+P_FindSectorFromLineTag(short tag, int start)
 {
-    int	i;
-
-#if 0
-    // [crispy] linedefs without tags apply locally
-    if (crispy->singleplayer && !line->tag)
-    {
-    for (i=start+1;i<numsectors;i++)
-	if (&sectors[i] == line->backsector)
-	{
-	    const long linedef = line - lines;
-	    fprintf(stderr, "P_FindSectorFromLineTag: Linedef %ld without tag applied to sector %d\n", linedef, i);
-	    return i;
-	}
-    }
-    else
-#else
     // [crispy] emit a warning for linedefs without tags
-    if (!line->tag)
+    if (!tag)
     {
-        const long linedef = line - lines;
-        fprintf(stderr, "P_FindSectorFromLineTag: Linedef %ld without tag\n", linedef);
+        fprintf(stderr, "P_FindSectorFromLineTag: Linedef without tag\n");
     }
-#endif
 
-    for (i=start+1;i<numsectors;i++)
-	if (sectors[i].tag == line->tag)
-	    return i;
+    for (int i=start+1;i<numsectors;i++) {
+		if (sectors[i].tag == tag) {
+	    	return i;
+		}
+	}
 
     return -1;
 }
@@ -1449,7 +1431,7 @@ int EV_DoDonut(line_t*	line)
 
     secnum = -1;
     rtn = 0;
-    while ((secnum = P_FindSectorFromLineTag(line,secnum)) >= 0)
+    while ((secnum = P_FindSectorFromLineTag(line->tag, secnum)) >= 0)
     {
 	s1 = &sectors[secnum];
 

@@ -785,8 +785,8 @@ void P_RespawnSpecials (void)
     // find which type to spawn
     for (i=0 ; i< NUMMOBJTYPES ; i++)
     {
-	if (mthing->type == mobjinfo[i].doomednum)
-	    break;
+        if (mthing->type == mobjinfo[i].doomednum)
+            break;
     }
 
     if (i >= NUMMOBJTYPES)
@@ -795,12 +795,10 @@ void P_RespawnSpecials (void)
                 "%d when respawning thing. This would cause a buffer overrun "
                 "in vanilla Doom", mthing->type);
     }
-
-    // spawn it
-    if (mobjinfo[i].flags & MF_SPAWNCEILING)
-	z = ONCEILINGZ;
+    else if (mobjinfo[i].flags & MF_SPAWNCEILING)
+	    z = ONCEILINGZ;
     else
-	z = ONFLOORZ;
+	    z = ONFLOORZ;
 
     mo = P_SpawnMobj (x,y,z, i);
     mo->spawnpoint = *mthing;
