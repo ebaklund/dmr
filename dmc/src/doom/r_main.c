@@ -462,95 +462,6 @@ R_PointToDist
     return dist;
 }
 
-
-
-
-//
-// R_InitPointToAngle
-//
-void R_InitPointToAngle (void)
-{
-    // UNUSED - now getting from tables.c
-#if 0
-    int	i;
-    long	t;
-    float	f;
-//
-// slope (tangent) to angle lookup
-//
-    for (i=0 ; i<=SLOPERANGE ; i++)
-    {
-	f = atan( (float)i/SLOPERANGE )/(3.141592657*2);
-	t = 0xffffffff*f;
-	tantoangle[i] = t;
-    }
-#endif
-}
-
-
-// [crispy] WiggleFix: move R_ScaleFromGlobalAngle function to r_segs.c,
-// above R_StoreWallRange
-#if 0
-//
-// R_ScaleFromGlobalAngle
-// Returns the texture mapping scale
-//  for the current line (horizontal span)
-//  at the given angle.
-// rw_distance must be calculated first.
-//
-fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
-{
-    fixed_t		scale;
-    angle_t		anglea;
-    angle_t		angleb;
-    int			sinea;
-    int			sineb;
-    fixed_t		num;
-    int			den;
-
-    // UNUSED
-#if 0
-{
-    fixed_t		dist;
-    fixed_t		z;
-    fixed_t		sinv;
-    fixed_t		cosv;
-
-    sinv = finesine[(visangle-rw_normalangle)>>ANGLETOFINESHIFT];
-    dist = FixedDiv (rw_distance, sinv);
-    cosv = finecosine[(viewangle-visangle)>>ANGLETOFINESHIFT];
-    z = abs(FixedMul (dist, cosv));
-    scale = FixedDiv(projection, z);
-    return scale;
-}
-#endif
-
-    anglea = ANG90 + (visangle-viewangle);
-    angleb = ANG90 + (visangle-rw_normalangle);
-
-    // both sines are allways positive
-    sinea = finesine[anglea>>ANGLETOFINESHIFT];
-    sineb = finesine[angleb>>ANGLETOFINESHIFT];
-    num = FixedMul(projection,sineb)<<detailshift;
-    den = FixedMul(rw_distance,sinea);
-
-    if (den > num>>FRACBITS)
-    {
-	scale = FixedDiv (num, den);
-
-	if (scale > 64*FRACUNIT)
-	    scale = 64*FRACUNIT;
-	else if (scale < 256)
-	    scale = 256;
-    }
-    else
-	scale = 64*FRACUNIT;
-
-    return scale;
-}
-#endif
-
-
 // [AM] Interpolate between two angles.
 angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
 {
@@ -870,36 +781,18 @@ void R_ExecuteSetViewSize (void)
     ST_refreshBackground(true);
 }
 
-
-
-//
-// R_Init
-//
-
-
-
 void R_Init (void)
 {
     R_InitData ();
-    printf (".");
-    R_InitPointToAngle ();
-    printf (".");
     R_SetViewSize (screenblocks, detailLevel);
     R_InitPlanes ();
-    printf (".");
     R_InitLightTables ();
-    printf (".");
     R_InitSkyMap ();
     R_InitTranslationTables ();
-    printf (".");
 
     framecount = 0;
 }
 
-
-//
-// R_PointInSubsector
-//
 subsector_t*
 R_PointInSubsector
 ( fixed_t	x,
