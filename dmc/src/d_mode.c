@@ -56,22 +56,6 @@ boolean D_ValidEpisodeMap(GameMission_t mission,
   return false;
 }
 
-// Get the number of valid episodes for the specified mission/mode.
-
-int D_GetNumEpisodes(GameMission_t mission, GameMode_t mode)
-{
-  int episode;
-
-  episode = 1;
-
-  while (D_ValidEpisodeMap(mission, mode, episode, 1))
-  {
-    ++episode;
-  }
-
-  return episode - 1;
-}
-
 // Table of valid versions
 
 static struct
@@ -83,37 +67,6 @@ static struct
     {doom, exe_doom_1_8}, {doom, exe_doom_1_9},
 };
 
-boolean D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
-{
-  int i;
-
-  mission = doom;
-
-  for (i = 0; i < arrlen(valid_versions); ++i)
-  {
-    if (valid_versions[i].mission == mission &&
-        valid_versions[i].version == version)
-    {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-// Does this mission type use ExMy form, rather than MAPxy form?
-
-boolean D_IsEpisodeMap(GameMission_t mission)
-{
-  switch (mission)
-  {
-    case doom:
-      return true;
-    default:
-      return false;
-  }
-}
-
 const char* D_GameMissionString(GameMission_t mission)
 {
   switch (mission)
@@ -123,16 +76,5 @@ const char* D_GameMissionString(GameMission_t mission)
       return "none";
     case doom:
       return "doom";
-  }
-}
-
-const char* D_GameModeString(GameMode_t mode)
-{
-  switch (mode)
-  {
-    case shareware:
-      return "shareware";
-    default:
-      return "unknown";
   }
 }

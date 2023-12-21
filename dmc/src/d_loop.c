@@ -346,11 +346,6 @@ void TryRunTics (void)
     }
 }
 
-void D_RegisterLoopCallbacks(loop_interface_t *i)
-{
-    loop_interface = i;
-}
-
 // TODO: Move nonvanilla demo functions into a dedicated file.
 #include "m_misc.h"
 #include "w_wad.h"

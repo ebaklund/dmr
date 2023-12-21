@@ -324,16 +324,6 @@ void HUlib_resetIText(hu_itext_t* it)
     HUlib_clearTextLine(&it->l);
 }
 
-void
-HUlib_addPrefixToIText
-( hu_itext_t*	it,
-  char*		str )
-{
-    while (*str)
-	HUlib_addCharToTextLine(&it->l, *(str++));
-    it->lm = it->l.len;
-}
-
 // wrapper function for handling general keyed input.
 // returns true if it ate the key
 boolean

@@ -36,21 +36,6 @@ static const iwad_t iwads[] =
     { "doom1.wad",    doom,      shareware,  "Doom Shareware" },
 };
 
-boolean D_IsIWADName(const char *name)
-{
-    int i;
-
-    for (i = 0; i < arrlen(iwads); i++)
-    {
-        if (!strcasecmp(name, iwads[i].name))
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 // Array of locations to search for IWAD files
 //
 // "128 IWAD search directories should be enough for anybody".
@@ -444,21 +429,6 @@ char *D_FindIWAD(char* iwadfile, int mask, GameMission_t *mission)
     }
 
     return result;
-}
-
-const char *D_SuggestIWADName(GameMission_t mission, GameMode_t mode)
-{
-    int i;
-
-    for (i = 0; i < arrlen(iwads); ++i)
-    {
-        if (iwads[i].mission == mission && iwads[i].mode == mode)
-        {
-            return iwads[i].name;
-        }
-    }
-
-    return "unknown.wad";
 }
 
 const char *D_SuggestGameName(GameMission_t mission, GameMode_t mode)

@@ -221,17 +221,6 @@ int bodyqueslot;
 int vanilla_savegame_limit = 1;
 int vanilla_demo_limit = 1;
 
-int G_CmdChecksum(ticcmd_t* cmd)
-{
-  size_t i;
-  int sum = 0;
-
-  for (i = 0; i < sizeof(*cmd) / 4 - 1; i++)
-    sum += ((int*)cmd)[i];
-
-  return sum;
-}
-
 static boolean WeaponSelectable(weapontype_t weapon)
 {
   // Can't select the super shotgun in Doom 1.
@@ -1181,22 +1170,6 @@ void G_Ticker(void)
       D_PageTicker();
       break;
   }
-}
-
-//
-// PLAYER STRUCTURE FUNCTIONS
-// also see P_SpawnPlayer in P_Things
-//
-
-//
-// G_InitPlayer
-// Called at the start.
-// Called by the game initialization functions.
-//
-void G_InitPlayer(int player)
-{
-  // clear everything else to defaults
-  G_PlayerReborn(player);
 }
 
 //

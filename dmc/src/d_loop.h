@@ -48,9 +48,6 @@ typedef struct
     void (*RunMenu)();
 } loop_interface_t;
 
-// Register callback functions for the main loop code to use.
-void D_RegisterLoopCallbacks(loop_interface_t *i);
-
 //? how many ticks to run?
 void TryRunTics (void);
 

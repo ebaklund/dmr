@@ -162,12 +162,6 @@ void HUlib_eraseLineFromIText(hu_itext_t* it);
 // resets line and left margin
 void HUlib_resetIText(hu_itext_t* it);
 
-// left of left-margin
-void
-HUlib_addPrefixToIText
-( hu_itext_t*	it,
-  char*		str );
-
 // whether eaten
 boolean
 HUlib_keyInIText
