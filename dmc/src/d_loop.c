@@ -394,7 +394,7 @@ static boolean IsDemoFile(int lumpnum)
     char *lower;
     boolean result;
 
-    lower = M_StringDuplicate(lumpinfo[lumpnum]->wad_file->path);
+    lower = M_StringDuplicate(lumpinfo[lumpnum]->wad_file->file_path);
     M_ForceLowercase(lower);
     result = M_StringEndsWith(lower, ".lmp");
     free(lower);

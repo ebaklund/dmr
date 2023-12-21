@@ -22,8 +22,6 @@
 #include "m_misc.h"
 #include "z_zone.h"
 
-extern wad_file_class_t stdc_wad_file;
-
 wad_file_t *W_OpenFile(const char *path)
 {
     FILE* fstream = fopen(path, "rb");
@@ -34,11 +32,8 @@ wad_file_t *W_OpenFile(const char *path)
     }
 
     wad_file_t* result = Z_Malloc(sizeof(wad_file_t), PU_STATIC, 0);
-    result->file_class = NULL;
-    result->mapped = NULL;
-    result->length = M_FileLength(fstream);
-    char* x = M_StringDuplicate(path);
-    result->path = x;
+    result->file_length = M_FileLength(fstream);
+    result->file_path = M_StringDuplicate(path);
     result->fstream = fstream;
 
     return result;

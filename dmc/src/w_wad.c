@@ -151,7 +151,7 @@ wad_file_t *W_AddFile (const char *filename)
 
     	fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
     	fileinfo->filepos = LONG(0);
-    	fileinfo->size = LONG(wad_file->length);
+    	fileinfo->size = LONG(wad_file->file_length);
 
         // Name the lump after the base of the filename (without the
         // extension).
@@ -413,13 +413,7 @@ void *W_CacheLumpNum(lumpindex_t lumpnum, int tag)
     // region.  If the lump is in an ordinary file, we may already
     // have it cached; otherwise, load it into memory.
 
-    if (lump->wad_file->mapped != NULL)
-    {
-        // Memory mapped file, return from the mmapped region.
-
-        result = lump->wad_file->mapped + lump->position;
-    }
-    else if (lump->cache != NULL)
+    if (lump->cache != NULL)
     {
         // Already cached, so just switch the zone tag.
 
@@ -431,7 +425,7 @@ void *W_CacheLumpNum(lumpindex_t lumpnum, int tag)
         // Not yet loaded, so load it now
 
         lump->cache = Z_Malloc(W_LumpLength(lumpnum), tag, &lump->cache);
-	W_ReadLump (lumpnum, lump->cache);
+	    W_ReadLump (lumpnum, lump->cache);
         result = lump->cache;
     }
 
@@ -464,19 +458,11 @@ void W_ReleaseLumpNum(lumpindex_t lumpnum)
 
     if ((unsigned)lumpnum >= numlumps)
     {
-	I_Error ("W_ReleaseLumpNum: %i >= numlumps", lumpnum);
+	    I_Error ("W_ReleaseLumpNum: %i >= numlumps", lumpnum);
     }
 
     lump = lumpinfo[lumpnum];
-
-    if (lump->wad_file->mapped != NULL)
-    {
-        // Memory-mapped file, so nothing needs to be done here.
-    }
-    else
-    {
-        Z_ChangeTag(lump->cache, PU_CACHE);
-    }
+    Z_ChangeTag(lump->cache, PU_CACHE);
 }
 
 void W_ReleaseLumpName(const char *name)
@@ -569,7 +555,7 @@ void W_Reload(void)
 
 const char *W_WadNameForLump(const lumpinfo_t *lump)
 {
-	return M_BaseName(lump->wad_file->path);
+	return M_BaseName(lump->wad_file->file_path);
 }
 
 boolean W_IsIWADLump(const lumpinfo_t *lump)
