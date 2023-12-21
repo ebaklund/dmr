@@ -4,6 +4,7 @@
     "m_misc.h": "c",
     "i_endoom.h": "c",
     "execute.h": "c",
-    "w_file.h": "c"
+    "w_file.h": "c",
+    "deh_mapping.h": "c"
   }
 }

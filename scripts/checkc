@@ -1,0 +1,4 @@
+#! /bin/bash
+
+
+cppcheck ./dmc | grep -v Checking   
