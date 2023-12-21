@@ -27,15 +27,6 @@
 
 extern wad_file_class_t stdc_wad_file;
 
-#ifdef HAVE_MMAP
-extern wad_file_class_t posix_wad_file;
-#endif
-
-static wad_file_class_t *wad_file_classes[] =
-{
-    &stdc_wad_file,
-};
-
 wad_file_t *W_OpenFile(const char *path)
 {
     return stdc_wad_file.OpenFile(path);
