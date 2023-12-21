@@ -211,7 +211,7 @@ void EV_StartLightStrobing(line_t*	line)
     sector_t*	sec;
 	
     secnum = -1;
-    while ((secnum = P_FindSectorFromLineTag(line,secnum)) >= 0)
+    while ((secnum = P_FindSectorFromLineTag(line->tag,secnum)) >= 0)
     {
 	sec = &sectors[secnum];
 	if (sec->specialdata)

@@ -335,7 +335,7 @@ EV_DoFloor
 
     secnum = -1;
     rtn = 0;
-    while ((secnum = P_FindSectorFromLineTag(line,secnum)) >= 0)
+    while ((secnum = P_FindSectorFromLineTag(line->tag, secnum)) >= 0)
     {
 	sec = &sectors[secnum];
 		
@@ -539,7 +539,7 @@ EV_BuildStairs
 
     secnum = -1;
     rtn = 0;
-    while ((secnum = P_FindSectorFromLineTag(line,secnum)) >= 0)
+    while ((secnum = P_FindSectorFromLineTag(line->tag,secnum)) >= 0)
     {
 	sec = &sectors[secnum];
 		
