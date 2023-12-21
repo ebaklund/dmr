@@ -20,7 +20,10 @@
         }
       },
       "args": ["--iwad", "doom-wad-shareware-1.9.fixed/doom1.wad"],
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "XSCREENSAVER_WINDOW": "1" // Keep cursor visible or debug is impossible
+      }
     },
     {
       "type": "lldb",
