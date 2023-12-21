@@ -11,7 +11,7 @@ fn c_files_in(dir: &str) -> Vec<PathBuf> {
 }
 
 fn main() {
-    env::set_var("CFLAGS", "-Wno-unused-but-set-parameter");
+    env::set_var("CFLAGS", "-Wno-unused-but-set-parameter -Werror=implicit-function-declaration");
 
     // https://docs.rs/cc/latest/cc/
 

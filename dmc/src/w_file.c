@@ -19,17 +19,37 @@
 #include <stdio.h>
 
 #include "config.h"
-
 #include "doomtype.h"
 #include "m_argv.h"
-
 #include "w_file.h"
+#include "m_misc.h"
+#include "z_zone.h"
 
 extern wad_file_class_t stdc_wad_file;
 
 wad_file_t *W_OpenFile(const char *path)
 {
-    return stdc_wad_file.OpenFile(path);
+    wad_file_t*result;
+    FILE *fstream;
+
+    fstream = fopen(path, "rb");
+
+    if (fstream == NULL)
+    {
+        return NULL;
+    }
+
+    // Create a new stdc_wad_file_t to hold the file handle.
+
+    result = Z_Malloc(sizeof(wad_file_t), PU_STATIC, 0);
+    result->file_class = &stdc_wad_file;
+    result->mapped = NULL;
+    result->length = M_FileLength(fstream);
+    char* x = M_StringDuplicate(path);
+    result->path = x;
+    result->fstream = fstream;
+
+    return result;
 }
 
 void W_CloseFile(wad_file_t *wad)

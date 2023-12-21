@@ -25,30 +25,6 @@
 
 extern wad_file_class_t stdc_wad_file;
 
-static wad_file_t *W_StdC_OpenFile(const char *path)
-{
-    wad_file_t*result;
-    FILE *fstream;
-
-    fstream = fopen(path, "rb");
-
-    if (fstream == NULL)
-    {
-        return NULL;
-    }
-
-    // Create a new stdc_wad_file_t to hold the file handle.
-
-    result = Z_Malloc(sizeof(wad_file_t), PU_STATIC, 0);
-    result->file_class = &stdc_wad_file;
-    result->mapped = NULL;
-    result->length = M_FileLength(fstream);
-    result->path = M_StringDuplicate(path);
-    result->fstream = fstream;
-
-    return result;
-}
-
 static void W_StdC_CloseFile(wad_file_t *wad)
 {
     fclose(wad->fstream);
@@ -76,7 +52,7 @@ size_t W_StdC_Read(wad_file_t *wad, unsigned int offset,
 
 wad_file_class_t stdc_wad_file = 
 {
-    W_StdC_OpenFile,
+    NULL,
     W_StdC_CloseFile,
     W_StdC_Read,
 };

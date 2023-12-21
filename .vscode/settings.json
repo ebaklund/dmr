@@ -3,6 +3,7 @@
     "start-local-dev-cluster": "shellscript",
     "m_misc.h": "c",
     "i_endoom.h": "c",
-    "execute.h": "c"
+    "execute.h": "c",
+    "w_file.h": "c"
   }
 }
