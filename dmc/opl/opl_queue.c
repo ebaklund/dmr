@@ -176,14 +176,7 @@ int OPL_Queue_Pop(opl_callback_queue_t *queue,
 
 uint64_t OPL_Queue_Peek(opl_callback_queue_t *queue)
 {
-    if (queue->num_entries > 0)
-    {
-        return queue->entries[0].time;
-    }
-    else
-    {
-        return 0;
-    }
+    return (queue->num_entries > 0) ? queue->entries[0].time : UINT64_MAX;
 }
 
 void OPL_Queue_AdjustCallbacks(opl_callback_queue_t *queue,
