@@ -519,77 +519,6 @@ static int ST_cheat_massacre()
   return killcount;
 }
 
-// [crispy] trigger all special lines available on the map
-static int ST_cheat_spechits()
-{
-  int i, speciallines = 0;
-  boolean origcards[NUMCARDS];
-
-  // [crispy] temporarily give all keys
-  for (i = 0; i < NUMCARDS; i++)
-  {
-    origcards[i] = plyr->cards[i];
-    plyr->cards[i] = true;
-  }
-
-  for (i = 0; i < numlines; i++)
-  {
-    if (lines[i].special)
-    {
-      // [crispy] do not trigger level exit switches/lines or teleporters
-      if (lines[i].special == 11 || lines[i].special == 51 ||
-          lines[i].special == 52 || lines[i].special == 124 ||
-          lines[i].special == 39 || lines[i].special == 97)
-      {
-        continue;
-      }
-
-      // [crispy] special without tag --> DR linedef type
-      // do not change door direction if it is already moving
-      if (lines[i].tag == 0 && lines[i].sidenum[1] != NO_INDEX &&
-          sides[lines[i].sidenum[1]].sector->specialdata)
-      {
-        continue;
-      }
-
-      P_CrossSpecialLine(i, 0, plyr->mo);
-      P_ShootSpecialLine(plyr->mo, &lines[i]);
-      P_UseSpecialLine(plyr->mo, &lines[i], 0);
-
-      speciallines++;
-    }
-  }
-
-  for (i = 0; i < NUMCARDS; i++)
-  {
-    plyr->cards[i] = origcards[i];
-  }
-
-  // [crispy] trigger tag 666/667 events
-  line_t dummy;
-  dummy.tag = 666;
-  
-  if (gameepisode == 1)
-    // Barons of Hell
-    speciallines += EV_DoFloor(&dummy, lowerFloorToLowest);
-  else if (gameepisode == 4)
-  {
-    if (gamemap == 6)
-      // Cyberdemons
-      speciallines += EV_DoDoor(&dummy, vld_blazeOpen);
-    else if (gamemap == 8)
-      // Spider Masterminds
-      speciallines += EV_DoFloor(&dummy, lowerFloorToLowest);
-  }
-
-  // Keens (no matter which level they are on)
-  // this call will be ignored if the tagged sector is already moving
-  // so actions triggered in the condition above will have precedence
-  speciallines += EV_DoDoor(&dummy, vld_open);
-
-  return (speciallines);
-}
-
 // [crispy] only give available weapons
 static boolean WeaponAvailable(int w)
 {
@@ -873,16 +802,6 @@ boolean ST_Responder(event_t* ev)
         M_snprintf(msg, sizeof(msg), "%s%d %s%s%s %s", crstr[CR_GOLD],
                    killcount, crstr[CR_NONE], monster,
                    (killcount == 1) ? "" : "s", killed);
-        plyr->message = msg;
-      }
-      // [crispy] implement Crispy Doom's "spechits" cheat
-      else if (cht_CheckCheatSP(&cheat_spechits, ev->data2))
-      {
-        int triggeredlines = ST_cheat_spechits();
-
-        M_snprintf(msg, sizeof(msg), "%s%d %sSpecial Line%s Triggered",
-                   crstr[CR_GOLD], triggeredlines, crstr[CR_NONE],
-                   (triggeredlines == 1) ? "" : "s");
         plyr->message = msg;
       }
       // [crispy] implement PrBoom+'s "notarget" cheat
