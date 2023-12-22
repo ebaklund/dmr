@@ -1232,9 +1232,6 @@ void D_DoomMain(char* iwadfile)
     }
   }
 
-  // Debug:
-  //    W_PrintDirectory();
-
   //!
   // @arg <demo>
   // @category demo

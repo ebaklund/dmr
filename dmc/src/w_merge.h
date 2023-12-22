@@ -36,9 +36,5 @@ void W_NWTMergeFile(const char *filename, int flags);
 
 void W_NWTDashMerge(const char *filename);
 
-// Debug function that prints the WAD directory.
-
-void W_PrintDirectory(void);
-
 #endif /* #ifndef W_MERGE_H */
 

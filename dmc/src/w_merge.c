@@ -553,19 +553,6 @@ static void DoMerge(void)
     numlumps = num_newlumps;
 }
 
-void W_PrintDirectory(void)
-{
-    unsigned int i, n;
-
-    // debug
-    for (i=0; i<numlumps; ++i)
-    {
-        for (n=0; n<8 && lumpinfo[i]->name[n] != '\0'; ++n)
-            putchar(lumpinfo[i]->name[n]);
-        putchar('\n');
-    }
-}
-
 // Merge in a file by name
 
 void W_MergeFile(const char *filename)

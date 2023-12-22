@@ -43,8 +43,6 @@ extern boolean dp_translucent;
 // haleyjd 08/28/10: Patch clipping callback, implemented to support ..
 
 typedef boolean (*vpatchclipfunc_t)(patch_t *, int, int);
-void V_SetPatchClipCallback(vpatchclipfunc_t func);
-
 
 // Allocates buffer screens, call before R_Init.
 void V_Init (void);
@@ -57,27 +55,14 @@ void V_CopyRect(int srcx, int srcy, pixel_t *source,
 
 void V_DrawPatch(int x, int y, patch_t *patch);
 void V_DrawPatchFlipped(int x, int y, patch_t *patch);
-void V_DrawTLPatch(int x, int y, patch_t *patch);
-void V_DrawShadowedPatch(int x, int y, patch_t *patch);
-void V_DrawXlaPatch(int x, int y, patch_t * patch);     // villsa ..
 void V_DrawPatchFullScreen(patch_t *patch, boolean flipped);
-
-// Draw a linear block of pixels into the view buffer.
-
 void V_DrawBlock(int x, int y, int width, int height, pixel_t *src);
-void V_DrawScaledBlock(int x, int y, int width, int height, pixel_t *src);
-
 void V_MarkRect(int x, int y, int width, int height);
-
 void V_DrawFilledBox(int x, int y, int w, int h, int c);
 void V_DrawHorizLine(int x, int y, int w, int c);
 void V_DrawVertLine(int x, int y, int h, int c);
 void V_DrawBox(int x, int y, int w, int h, int c);
 void V_CopyScaledBuffer(pixel_t *dest, pixel_t *src, size_t size);
-
-// Draw a raw screen lump
-
-void V_DrawRawScreen(pixel_t *raw);
 
 // Temporarily switch to using a different buffer to draw graphics, etc.
 
@@ -92,17 +77,6 @@ void V_RestoreBuffer(void);
 // "DOOM%02i.pcx"
 
 void V_ScreenShot(const char *format);
-
-// Load the lookup table for translucency calculations from the TINTTAB
-// lump.
-
-void V_LoadTintTable(void);
-
-// Load the lookup table for translucency calculations from the XLATAB
-// lump.
-
-void V_LoadXlaTable(void);
-
 void V_DrawMouseSpeedBox(int speed);
 
 #endif

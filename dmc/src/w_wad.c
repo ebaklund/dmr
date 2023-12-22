@@ -242,18 +242,6 @@ wad_file_t *W_AddFile (const char *filename)
     return wad_file;
 }
 
-
-
-//
-// W_NumLumps
-//
-int W_NumLumps (void)
-{
-    return numlumps;
-}
-
-
-
 //
 // W_CheckNumForName
 // Returns -1 if name not found.
