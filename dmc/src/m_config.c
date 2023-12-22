@@ -2302,31 +2302,6 @@ void M_SaveDefaults (void)
 }
 
 //
-// Save defaults to alternate filenames
-//
-
-void M_SaveDefaultsAlternate(const char *main, const char *extra)
-{
-    const char *orig_main;
-    const char *orig_extra;
-
-    // Temporarily change the filenames
-
-    orig_main = doom_defaults.filename;
-    orig_extra = extra_defaults.filename;
-
-    doom_defaults.filename = main;
-    extra_defaults.filename = extra;
-
-    M_SaveDefaults();
-
-    // Restore normal filenames
-
-    doom_defaults.filename = orig_main;
-    extra_defaults.filename = orig_extra;
-}
-
-//
 // M_LoadDefaults
 //
 
@@ -2470,23 +2445,6 @@ boolean M_SetVariable(const char *name, const char *value)
     return true;
 }
 
-// Get the value of a variable.
-
-int M_GetIntVariable(const char *name)
-{
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
-
-    if (variable == NULL || !variable->bound
-     || (variable->type != DEFAULT_INT && variable->type != DEFAULT_INT_HEX))
-    {
-        return 0;
-    }
-
-    return *variable->location.i;
-}
-
 const char *M_GetStringVariable(const char *name)
 {
     default_t *variable;
@@ -2500,21 +2458,6 @@ const char *M_GetStringVariable(const char *name)
     }
 
     return *variable->location.s;
-}
-
-float M_GetFloatVariable(const char *name)
-{
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
-
-    if (variable == NULL || !variable->bound
-     || variable->type != DEFAULT_FLOAT)
-    {
-        return 0;
-    }
-
-    return *variable->location.f;
 }
 
 // Get the path to the default configuration dir to use, if NULL
@@ -2609,30 +2552,3 @@ void M_SetMusicPackDir(void)
     free(music_pack_path);
     SDL_free(prefdir);
 }
-
-//
-// Calculate the path to the directory for autoloaded WADs/DEHs.
-// Creates the directory as necessary.
-//
-char *M_GetAutoloadDir(const char *iwadname)
-{
-    char *result;
-
-    if (autoload_path == NULL || strlen(autoload_path) == 0)
-    {
-        char *prefdir;
-        prefdir = SDL_GetPrefPath("", PACKAGE_TARNAME);
-        autoload_path = M_StringJoin(prefdir, "autoload", NULL);
-        SDL_free(prefdir);
-    }
-
-    M_MakeDirectory(autoload_path);
-
-    result = M_StringJoin(autoload_path, DIR_SEPARATOR_S, iwadname, NULL);
-    M_MakeDirectory(result);
-
-    // TODO: Add README file
-
-    return result;
-}
-

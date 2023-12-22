@@ -238,11 +238,6 @@ static void PrintQueueNode(opl_callback_queue_t *queue, int node, int depth)
     PrintQueueNode(queue, node * 2 + 2, depth + 1);
 }
 
-static void PrintQueue(opl_callback_queue_t *queue)
-{
-    PrintQueueNode(queue, 0, 0);
-}
-
 int main()
 {
     opl_callback_queue_t *queue;
