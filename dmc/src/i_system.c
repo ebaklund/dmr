@@ -78,44 +78,6 @@ void I_Tactile(int on, int off, int total)
 // by trying progressively smaller zone sizes until one is found that
 // works.
 
-static byte *AutoAllocMemory(int *size, int default_ram, int min_ram)
-{
-    byte *zonemem;
-
-    // Allocate the zone memory.  This loop tries progressively smaller
-    // zone sizes until a size is found that can be allocated.
-    // If we used the -mb command line parameter, only the parameter
-    // provided is accepted.
-
-    zonemem = NULL;
-
-    while (zonemem == NULL)
-    {
-        // We need a reasonable minimum amount of RAM to start.
-
-        if (default_ram < min_ram)
-        {
-            I_Error("Unable to allocate %i MiB of RAM for zone", default_ram);
-        }
-
-        // Try to allocate the zone memory.
-
-        *size = default_ram * 1024 * 1024;
-
-        zonemem = malloc(*size);
-
-        // Failed to allocate?  Reduce zone size until we reach a size
-        // that is acceptable.
-
-        if (zonemem == NULL)
-        {
-            default_ram -= 1;
-        }
-    }
-
-    return zonemem;
-}
-
 void I_PrintDivider(void)
 {
     int i;

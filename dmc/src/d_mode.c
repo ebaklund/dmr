@@ -33,29 +33,6 @@ static struct
     {doom, shareware, 1, 9},
 };
 
-boolean D_ValidEpisodeMap(GameMission_t mission,
-                          GameMode_t mode,
-                          int episode,
-                          int map)
-{
-  int i;
-
-  // Find the table entry for this mission/mode combination.
-
-  for (i = 0; i < arrlen(valid_modes); ++i)
-  {
-    if (mission == valid_modes[i].mission && mode == valid_modes[i].mode)
-    {
-      return episode >= 1 && episode <= valid_modes[i].episode && map >= 1 &&
-             map <= valid_modes[i].map;
-    }
-  }
-
-  // Unknown mode/mission combination
-
-  return false;
-}
-
 // Table of valid versions
 
 static struct

@@ -74,8 +74,7 @@ typedef enum
 } skill_t;
 
 boolean D_ValidGameMode(GameMission_t mission, GameMode_t mode);
-boolean D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
-                          int episode, int map);
+
 const char *D_GameMissionString(GameMission_t mission);
 
 #endif /* #ifndef __D_MODE__ */

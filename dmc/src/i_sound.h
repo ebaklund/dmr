@@ -223,7 +223,6 @@ void *I_RegisterSong(void *data, int len);
 void I_UnRegisterSong(void *handle);
 void I_PlaySong(void *handle, boolean looping);
 void I_StopSong(void);
-boolean I_MusicIsPlaying(void);
 
 extern int snd_sfxdevice;
 extern int snd_musicdevice;

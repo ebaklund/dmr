@@ -514,34 +514,6 @@ void V_DrawBox(int x, int y, int w, int h, int c)
 }
 
 //
-// Draw a "raw" screen (lump containing raw data to blit directly
-// to the screen)
-//
-
-void V_CopyScaledBuffer(pixel_t *dest, pixel_t *src, size_t size)
-{
-    int i, j;
-
-#ifdef RANGECHECK
-    if (size > ORIGWIDTH * ORIGHEIGHT)
-    {
-        I_Error("Bad V_CopyScaledBuffer");
-    }
-#endif
-
-    while (size--)
-    {
-        for (i = 0; i <= crispy->hires; i++)
-        {
-            for (j = 0; j <= crispy->hires; j++)
-            {
-                *(dest + (size << crispy->hires) + (crispy->hires * (int) (size / ORIGWIDTH) + i) * SCREENWIDTH + j) = *(src + size);
-            }
-        }
-    }
-}
-
-//
 // V_Init
 //
 void V_Init (void)

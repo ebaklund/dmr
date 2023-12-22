@@ -62,7 +62,6 @@ void V_DrawFilledBox(int x, int y, int w, int h, int c);
 void V_DrawHorizLine(int x, int y, int w, int c);
 void V_DrawVertLine(int x, int y, int h, int c);
 void V_DrawBox(int x, int y, int w, int h, int c);
-void V_CopyScaledBuffer(pixel_t *dest, pixel_t *src, size_t size);
 
 // Temporarily switch to using a different buffer to draw graphics, etc.
 

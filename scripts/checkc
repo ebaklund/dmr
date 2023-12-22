@@ -1,4 +1,5 @@
 #! /bin/bash
 
+// https://manpages.ubuntu.com/manpages/xenial/man1/cppcheck.1.html
 
-cppcheck ./dmc | grep -v Checking   
+cppcheck ./dmc --enable=unusedFunction | grep -v Checking   
