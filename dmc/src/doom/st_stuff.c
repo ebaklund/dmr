@@ -1887,12 +1887,6 @@ void ST_loadData(void)
   }
 }
 
-static void ST_unloadCallback(const char* lumpname, patch_t** variable)
-{
-  W_ReleaseLumpName(lumpname);
-  *variable = NULL;
-}
-
 void ST_initData(void)
 {
   int i;
