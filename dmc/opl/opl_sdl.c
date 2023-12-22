@@ -125,7 +125,7 @@ static void AdvanceTime(unsigned int nsamples)
     // until there are no more left.
 
     while (!OPL_Queue_IsEmpty(callback_queue)
-        && current_time >= OPL_Queue_Peek(callback_queue) + pause_offset)
+        && current_time >= OPL_Queue_NextTimeOrInf(callback_queue) + pause_offset)
     {
         // Pop the callback from the queue to invoke it.
 
@@ -197,7 +197,7 @@ static void OPL_Mix_Callback(void *udata, Uint8 *buffer, int len)
         }
         else
         {
-            next_callback_time = OPL_Queue_Peek(callback_queue) + pause_offset;
+            next_callback_time = OPL_Queue_NextTimeOrInf(callback_queue) + pause_offset;
 
             nsamples = (next_callback_time - current_time) * mixing_freq;
             nsamples = (nsamples + OPL_SECOND - 1) / OPL_SECOND;

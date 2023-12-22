@@ -174,7 +174,7 @@ int OPL_Queue_Pop(opl_callback_queue_t *queue,
     return 1;
 }
 
-uint64_t OPL_Queue_Peek(opl_callback_queue_t *queue)
+uint64_t OPL_Queue_NextTimeOrInf(opl_callback_queue_t *queue)
 {
     return (queue->num_entries > 0) ? queue->entries[0].time : UINT64_MAX;
 }
