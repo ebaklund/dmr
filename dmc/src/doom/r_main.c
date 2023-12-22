@@ -127,29 +127,6 @@ void (*tlcolfunc) (void);
 void (*spanfunc) (void);
 
 
-
-//
-// R_AddPointToBox
-// Expand a given bbox
-// so that it encloses a given point.
-//
-void
-R_AddPointToBox
-( int		x,
-  int		y,
-  fixed_t*	box )
-{
-    if (x< box[BOXLEFT])
-	box[BOXLEFT] = x;
-    if (x> box[BOXRIGHT])
-	box[BOXRIGHT] = x;
-    if (y< box[BOXBOTTOM])
-	box[BOXBOTTOM] = y;
-    if (y> box[BOXTOP])
-	box[BOXTOP] = y;
-}
-
-
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -418,48 +395,6 @@ R_PointToAngle2
 
     // [crispy] R_PointToAngle2() is never called during rendering
     return R_PointToAngleSlope (x2, y2, SlopeDiv);
-}
-
-
-fixed_t
-R_PointToDist
-( fixed_t	x,
-  fixed_t	y )
-{
-    int		angle;
-    fixed_t	dx;
-    fixed_t	dy;
-    fixed_t	temp;
-    fixed_t	dist;
-    fixed_t     frac;
-
-    dx = abs(x - viewx);
-    dy = abs(y - viewy);
-
-    if (dy>dx)
-    {
-	temp = dx;
-	dx = dy;
-	dy = temp;
-    }
-
-    // Fix crashes in udm1.wad
-
-    if (dx != 0)
-    {
-        frac = FixedDiv(dy, dx);
-    }
-    else
-    {
-	frac = 0;
-    }
-
-    angle = (tantoangle[frac>>DBITS]+ANG90) >> ANGLETOFINESHIFT;
-
-    // use as cosine
-    dist = FixedDiv (dx, finesine[angle] );
-
-    return dist;
 }
 
 // [AM] Interpolate between two angles.

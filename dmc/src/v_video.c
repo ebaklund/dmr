@@ -542,59 +542,6 @@ void V_DrawXlaPatch(int x, int y, patch_t * patch)
 }
 
 //
-// V_DrawAltTLPatch
-//
-// Masks a column based translucent masked pic to the screen.
-//
-
-void V_DrawAltTLPatch(int x, int y, patch_t * patch)
-{
-    int count, col;
-    column_t *column;
-    pixel_t *desttop, *dest;
-    byte *source;
-    int w;
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
-    if (x < 0
-     || x + SHORT(patch->width) > ORIGWIDTH
-     || y < 0
-     || y + SHORT(patch->height) > ORIGHEIGHT)
-    {
-        I_Error("Bad V_DrawAltTLPatch");
-    }
-
-    col = 0;
-    desttop = dest_screen + ((y * dy) >> FRACBITS) * SCREENWIDTH + ((x * dx) >> FRACBITS);
-
-    w = SHORT(patch->width);
-    for (; col < w << FRACBITS; x++, col+=dxi, desttop++)
-    {
-        column = (column_t *) ((byte *) patch + LONG(patch->columnofs[col >> FRACBITS]));
-
-        // step through the posts in a column
-
-        while (column->topdelta != 0xff)
-        {
-            int srccol = 0;
-            source = (byte *) column + 3;
-            dest = desttop + ((column->topdelta * dy) >> FRACBITS) * SCREENWIDTH;
-            count = (column->length * dy) >> FRACBITS;
-
-            while (count--)
-            {
-                *dest = tinttable[((*dest) << 8) + source[srccol >> FRACBITS]];
-                srccol += dyi;
-                dest += SCREENWIDTH;
-            }
-            column = (column_t *) ((byte *) column + column->length + 4);
-        }
-    }
-}
-
-//
 // V_DrawShadowedPatch
 //
 // Masks a column based masked pic to the screen.

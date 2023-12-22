@@ -888,11 +888,6 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
   musinfo.current_item = lumpnum;
 }
 
-boolean S_MusicPlaying(void)
-{
-  return I_MusicIsPlaying();
-}
-
 void S_StopMusic(void)
 {
   if (mus_playing)

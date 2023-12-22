@@ -1979,11 +1979,6 @@ void ST_unloadGraphics(void)
   ST_loadUnloadGraphics(ST_unloadCallback);
 }
 
-void ST_unloadData(void)
-{
-  ST_unloadGraphics();
-}
-
 void ST_initData(void)
 {
   int i;
