@@ -32,9 +32,10 @@ opl_callback_queue_t *OPL_Queue_Create(void)
     return queue;
 }
 
-void OPL_Queue_Destroy(opl_callback_queue_t *queue)
+void OPL_Queue_Destroy(opl_callback_queue_t **queue)
 {
-    free(queue);
+    free(*queue);
+    queue = NULL;
 }
 
 int OPL_Queue_IsEmpty(opl_callback_queue_t *queue)

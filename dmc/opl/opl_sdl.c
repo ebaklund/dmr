@@ -21,15 +21,11 @@
 #include <string.h>
 #include <errno.h>
 #include <assert.h>
-
 #include "SDL.h"
 #include "SDL_mixer.h"
-
 #include "opl3.h"
-
 #include "opl.h"
 #include "opl_internal.h"
-
 #include "opl_queue.h"
 
 #define MAX_SOUND_SLICE_TIME 100 /* ms */
@@ -229,18 +225,10 @@ static void OPL_SDL_Shutdown(void)
     {
         Mix_CloseAudio();
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
-        OPL_Queue_Destroy(callback_queue);
+        OPL_Queue_Destroy(&callback_queue);
         free(mix_buffer);
         sdl_was_initialized = 0;
     }
-
-/*
-    if (opl_chip != NULL)
-    {
-        OPLDestroy(opl_chip);
-        opl_chip = NULL;
-    }
-    */
 
     if (callback_mutex != NULL)
     {
