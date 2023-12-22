@@ -273,12 +273,6 @@ void M_CrispyToggleExtAutomap(int choice)
   crispy->extautomap = !crispy->extautomap;
 }
 
-void M_CrispyToggleExtsaveg(int choice)
-{
-  choice = 0;
-  crispy->extsaveg = !crispy->extsaveg;
-}
-
 void M_CrispyToggleFlipcorpses(int choice)
 {
   choice = 0;

@@ -33,59 +33,6 @@ static SDL_Window *hr_screen = NULL;
 static SDL_Surface *hr_surface = NULL;
 static const char *window_title = "";
 
-boolean I_SetVideoModeHR(void)
-{
-    int x, y;
-
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        return false;
-    }
-
-    I_GetWindowPosition(&x, &y, HR_SCREENWIDTH, HR_SCREENHEIGHT);
-
-    // Create screen surface at the native desktop pixel depth (bpp=0),
-    // as we cannot trust true 8-bit to reliably work nowadays.
-    hr_screen = SDL_CreateWindow(window_title, x, y,
-        HR_SCREENWIDTH, HR_SCREENHEIGHT,
-        0);
-
-    if (hr_screen == NULL)
-    {
-        SDL_QuitSubSystem(SDL_INIT_VIDEO);
-        return false;
-    }
-
-    // We do all actual drawing into an intermediate surface.
-    hr_surface = SDL_CreateRGBSurface(0, HR_SCREENWIDTH, HR_SCREENHEIGHT,
-                                      8, 0, 0, 0, 0);
-
-    return true;
-}
-
-void I_SetWindowTitleHR(const char *title)
-{
-    window_title = title;
-}
-
-void I_UnsetVideoModeHR(void)
-{
-    if (hr_screen != NULL)
-    {
-        SDL_QuitSubSystem(SDL_INIT_VIDEO);
-        hr_screen = NULL;
-        SDL_FreeSurface(hr_surface);
-        hr_surface = NULL;
-    }
-}
-
-void I_ClearScreenHR(void)
-{
-    SDL_Rect area = { 0, 0, HR_SCREENWIDTH, HR_SCREENHEIGHT };
-
-    SDL_FillRect(hr_surface, &area, 0);
-}
-
 void I_SlamBlockHR(int x, int y, int w, int h, const byte *src)
 {
     SDL_Rect blit_rect;
@@ -154,16 +101,6 @@ void I_SlamBlockHR(int x, int y, int w, int h, const byte *src)
     SDL_UpdateWindowSurfaceRects(hr_screen, &blit_rect, 1);
 }
 
-void I_SlamHR(const byte *buffer)
-{
-    I_SlamBlockHR(0, 0, HR_SCREENWIDTH, HR_SCREENHEIGHT, buffer);
-}
-
-void I_InitPaletteHR(void)
-{
-    // ...
-}
-
 void I_SetPaletteHR(const byte *palette)
 {
     SDL_Rect screen_rect = {0, 0, HR_SCREENWIDTH, HR_SCREENHEIGHT};
@@ -183,74 +120,3 @@ void I_SetPaletteHR(const byte *palette)
                     SDL_GetWindowSurface(hr_screen), &screen_rect);
     SDL_UpdateWindowSurfaceRects(hr_screen, &screen_rect, 1);
 }
-
-void I_FadeToPaletteHR(const byte *palette)
-{
-    byte tmppal[16 * 3];
-    int starttime;
-    int elapsed;
-    int i;
-
-    starttime = I_GetTimeMS();
-
-    for (;;)
-    {
-        elapsed = I_GetTimeMS() - starttime;
-
-        if (elapsed >= FADE_TIME)
-        {
-            break;
-        }
-
-        // Generate the fake palette
-
-        for (i=0; i<16 * 3; ++i)
-        {
-            tmppal[i] = (palette[i] * elapsed) / FADE_TIME;
-        }
-
-        I_SetPaletteHR(tmppal);
-        SDL_UpdateWindowSurface(hr_screen);
-
-        // Sleep a bit
-
-        I_Sleep(10);
-    }
-
-    // Set the final palette
-
-    I_SetPaletteHR(palette);
-}
-
-void I_BlackPaletteHR(void)
-{
-    byte blackpal[16 * 3];
-
-    memset(blackpal, 0, sizeof(blackpal));
-
-    I_SetPaletteHR(blackpal);
-}
-
-// Check if the user has hit the escape key to abort startup.
-boolean I_CheckAbortHR(void)
-{
-    SDL_Event ev;
-    boolean result = false;
-
-    // Not initialized?
-    if (hr_surface == NULL)
-    {
-        return false;
-    }
-
-    while (SDL_PollEvent(&ev))
-    {
-        if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)
-        {
-            result = true;
-        }
-    }
-
-    return result;
-}
-

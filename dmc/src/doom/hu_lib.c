@@ -34,10 +34,6 @@
 
 extern boolean	automapactive;	// in AM_map.c
 
-void HUlib_init(void)
-{
-}
-
 void HUlib_clearTextLine(hu_textline_t* t)
 {
     t->len = 0;
@@ -308,12 +304,6 @@ HUlib_initIText
 void HUlib_delCharFromIText(hu_itext_t* it)
 {
     if (it->l.len != it->lm)
-	HUlib_delCharFromTextLine(&it->l);
-}
-
-void HUlib_eraseLineFromIText(hu_itext_t* it)
-{
-    while (it->lm != it->l.len)
 	HUlib_delCharFromTextLine(&it->l);
 }
 

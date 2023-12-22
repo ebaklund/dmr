@@ -631,13 +631,6 @@ void M_DrawReadThis2(void)
   V_DrawPatchFullScreen(W_CacheLumpName(DEH_String("HELP1"), PU_CACHE), false);
 }
 
-void M_DrawReadThisCommercial(void)
-{
-  inhelpscreens = true;
-
-  V_DrawPatchFullScreen(W_CacheLumpName(DEH_String("HELP"), PU_CACHE), false);
-}
-
 //
 // Change Sfx & Music volumes
 //

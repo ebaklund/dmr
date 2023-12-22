@@ -29,11 +29,6 @@ typedef void (*atexit_func_t)(void);
 // Called by DoomMain.
 void I_Init (void);
 
-// Called by startup code
-// to get the ammount of memory to malloc
-// for the zone management.
-byte*	I_ZoneBase (int *size);
-
 boolean I_ConsoleStdout(void);
 
 

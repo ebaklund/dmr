@@ -116,50 +116,6 @@ static byte *AutoAllocMemory(int *size, int default_ram, int min_ram)
     return zonemem;
 }
 
-byte *I_ZoneBase (int *size)
-{
-    byte *zonemem;
-    int min_ram, default_ram;
-    int p;
-    static int i = 1;
-
-    //!
-    // @category obscure
-    // @arg <mb>
-    //
-    // Specify the heap size, in MiB (default 16).
-    //
-
-    p = M_CheckParmWithArgs("-mb", 1);
-
-    if (p > 0)
-    {
-        default_ram = atoi(myargv[p+1]);
-        min_ram = default_ram;
-    }
-    else
-    {
-        default_ram = DEFAULT_RAM;
-        min_ram = MIN_RAM;
-    }
-
-    // [crispy] do not allocate new zones ad infinitum
-    if (i > 8)
-    {
-        min_ram = default_ram + 1;
-    }
-
-    zonemem = AutoAllocMemory(size, default_ram * i, min_ram * i);
-
-    // [crispy] if called again, allocate another zone twice as big
-    i *= 2;
-
-    printf("zone memory: %p, %d MiB allocated for zone\n",
-           zonemem, *size >> 20); // [crispy] human-understandable zone heap size
-
-    return zonemem;
-}
-
 void I_PrintDivider(void)
 {
     int i;
