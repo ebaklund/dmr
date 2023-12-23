@@ -373,10 +373,7 @@ void OPL_SetCallback(uint64_t us, opl_callback_t callback, void *data)
 
 void OPL_ClearCallbacks(void)
 {
-    if (driver != NULL)
-    {
-        driver->clear_callbacks_func();
-    }
+    OPL_SDL_ClearCallbacks();
 }
 
 void OPL_Lock(void)
