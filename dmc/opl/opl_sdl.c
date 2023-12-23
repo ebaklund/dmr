@@ -469,7 +469,7 @@ void OPL_SDL_Unlock(void)
     SDL_UnlockMutex(callback_mutex);
 }
 
-static void OPL_SDL_SetPaused(int paused)
+void OPL_SDL_SetPaused(int paused)
 {
     opl_sdl_paused = paused;
 }
@@ -492,7 +492,7 @@ opl_driver_t opl_sdl_driver =
     // OPL_SDL_ClearCallbacks,
     // OPL_SDL_Lock,
     // OPL_SDL_Unlock,
-    OPL_SDL_SetPaused,
+    // OPL_SDL_SetPaused,
     OPL_SDL_AdjustCallbacks
 };
 

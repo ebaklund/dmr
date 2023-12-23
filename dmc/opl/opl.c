@@ -443,10 +443,7 @@ void OPL_Delay(uint64_t us)
 
 void OPL_SetPaused(int paused)
 {
-    if (driver != NULL)
-    {
-        driver->set_paused_func(paused);
-    }
+    OPL_SDL_SetPaused(paused);
 }
 
 void OPL_AdjustCallbacks(float value)

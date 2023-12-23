@@ -29,6 +29,7 @@ void OPL_SDL_SetCallback(uint64_t us, opl_callback_t callback, void *data);
 void OPL_SDL_ClearCallbacks(void);
 void OPL_SDL_Lock(void);
 void OPL_SDL_Unlock(void);
+void OPL_SDL_SetPaused(int paused);
 
 typedef void (*opl_set_paused_func)(int paused);
 typedef void (*opl_adjust_callbacks_func)(float value);
@@ -36,7 +37,6 @@ typedef void (*opl_adjust_callbacks_func)(float value);
 typedef struct
 {
     const char *name;
-    opl_set_paused_func set_paused_func;
     opl_adjust_callbacks_func adjust_callbacks_func;
 } opl_driver_t;
 
