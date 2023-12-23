@@ -378,10 +378,7 @@ void OPL_ClearCallbacks(void)
 
 void OPL_Lock(void)
 {
-    if (driver != NULL)
-    {
-        driver->lock_func();
-    }
+    OPL_SDL_Lock();
 }
 
 void OPL_Unlock(void)
