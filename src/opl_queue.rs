@@ -113,3 +113,18 @@ pub extern "C" fn OPL_Queue_NextTimeOrInf(qptr: *mut c_void) -> u64 {
         }
     }
 }
+
+#[no_mangle]
+pub extern "C" fn OPL_Queue_AdjustCallbacks(qptr: *mut c_void, time: u64, factor: f32) {
+    unsafe {
+        let queue = &mut *(qptr as *mut OplQueue);
+
+        queue.entries = queue.entries.first().iter().map(|entry| {
+            OplQueueEntry {
+                callback: entry.callback,
+                data: entry.data,
+                time: time + ((entry.time - time) as f32 / factor) as u64
+            }
+        }).collect();
+    }
+}

@@ -18,6 +18,8 @@
 #ifndef OPL_QUEUE_H
 #define OPL_QUEUE_H
 
+#include <inttypes.h>
+
 void* OPL_Queue_Create(void);
 int OPL_Queue_IsEmpty(void* queue);
 void OPL_Queue_Clear(void* queue);
@@ -25,6 +27,7 @@ void OPL_Queue_Destroy(void** queue);
 void OPL_Queue_Push(void* queue, opl_callback_t callback, void *data, uint64_t time);
 int OPL_Queue_Pop(void* queue, opl_callback_t *callback, void **data);
 uint64_t OPL_Queue_NextTimeOrInf(void* queue);
+void OPL_Queue_AdjustCallbacks(void* queue, uint64_t time, float factor);
 
 #endif /* #ifndef OPL_QUEUE_H */
 
