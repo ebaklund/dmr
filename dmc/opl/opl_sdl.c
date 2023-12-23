@@ -480,19 +480,3 @@ void OPL_SDL_AdjustCallbacks(float factor)
     OPL_Queue_AdjustCallbacks(callback_queue, current_time, factor);
     SDL_UnlockMutex(callback_queue_mutex);
 }
-
-opl_driver_t opl_sdl_driver =
-{
-    "SDL",
-    // OPL_SDL_Init,
-    // OPL_SDL_Shutdown,
-    // OPL_SDL_PortRead,
-    // OPL_SDL_PortWrite,
-    // OPL_SDL_SetCallback,
-    // OPL_SDL_ClearCallbacks,
-    // OPL_SDL_Lock,
-    // OPL_SDL_Unlock,
-    // OPL_SDL_SetPaused,
-    // OPL_SDL_AdjustCallbacks
-};
-

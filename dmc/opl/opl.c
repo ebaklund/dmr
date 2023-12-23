@@ -25,15 +25,6 @@
 #include "opl.h"
 #include "opl_sdl.h"
 
-extern opl_driver_t opl_sdl_driver;
-
-static opl_driver_t *drivers[] =
-{
-    &opl_sdl_driver,
-    NULL
-};
-
-static opl_driver_t *driver = NULL;
 static int init_stage_reg_writes = 1;
 
 unsigned int opl_sample_rate = 22050;
@@ -45,11 +36,8 @@ unsigned int opl_sample_rate = 22050;
 // Initialize the specified driver and detect an OPL chip.  Returns
 // true if an OPL is detected.
 
-static opl_init_result_t InitDriver(opl_driver_t *_driver,
-                                    unsigned int port_base)
+static opl_init_result_t InitDriver(unsigned int port_base)
 {
-    opl_init_result_t result1, result2;
-
     // Initialize the driver.
 
     if (!OPL_SDL_Init(port_base))
@@ -62,22 +50,19 @@ static opl_init_result_t InitDriver(opl_driver_t *_driver,
     // though.  Perform the detection sequence to make sure.
     // (it's done twice, like how Doom does it).
 
-    driver = _driver;
     init_stage_reg_writes = 1;
 
-    result1 = OPL_Detect();
-    result2 = OPL_Detect();
+    opl_init_result_t result1 = OPL_Detect();
+    opl_init_result_t result2 = OPL_Detect();
+
     if (result1 == OPL_INIT_NONE || result2 == OPL_INIT_NONE)
     {
-        printf("OPL_Init: No OPL detected using '%s' driver.\n", _driver->name);
+        printf("OPL_Init: No OPL detected.\n");
         OPL_SDL_Shutdown();
-        driver = NULL;
         return OPL_INIT_NONE;
     }
 
     init_stage_reg_writes = 0;
-
-    printf("OPL_Init: Using driver '%s'.\n", driver->name);
 
     return result2;
 }
@@ -86,21 +71,7 @@ static opl_init_result_t InitDriver(opl_driver_t *_driver,
 
 static opl_init_result_t AutoSelectDriver(unsigned int port_base)
 {
-    int i;
-    opl_init_result_t result;
-
-    for (i=0; drivers[i] != NULL; ++i)
-    {
-        result = InitDriver(drivers[i], port_base);
-        if (result != OPL_INIT_NONE)
-        {
-            return result;
-        }
-    }
-
-    printf("OPL_Init: Failed to find a working driver.\n");
-
-    return OPL_INIT_NONE;
+    return InitDriver(port_base);
 }
 
 // Initialize the OPL library. Return value indicates type of OPL chip
@@ -108,42 +79,7 @@ static opl_init_result_t AutoSelectDriver(unsigned int port_base)
 
 opl_init_result_t OPL_Init(unsigned int port_base)
 {
-    char *driver_name;
-    int i;
-    int result;
-
-    driver_name = getenv("OPL_DRIVER");
-
-    if (driver_name != NULL)
-    {
-        // Search the list until we find the driver with this name.
-
-        for (i=0; drivers[i] != NULL; ++i)
-        {
-            if (!strcmp(driver_name, drivers[i]->name))
-            {
-                result = InitDriver(drivers[i], port_base);
-                if (result)
-                {
-                    return result;
-                }
-                else
-                {
-                    printf("OPL_Init: Failed to initialize "
-                           "driver: '%s'.\n", driver_name);
-                    return OPL_INIT_NONE;
-                }
-            }
-        }
-
-        printf("OPL_Init: unknown driver: '%s'.\n", driver_name);
-
-        return OPL_INIT_NONE;
-    }
-    else
-    {
-        return AutoSelectDriver(port_base);
-    }
+    return InitDriver(port_base);
 }
 
 // Shut down the OPL library.
@@ -409,11 +345,6 @@ static void DelayCallback(void *_delay_data)
 void OPL_Delay(uint64_t us)
 {
     delay_data_t delay_data;
-
-    if (driver == NULL)
-    {
-        return;
-    }
 
     // Create a callback that will signal this thread after the
     // specified time.

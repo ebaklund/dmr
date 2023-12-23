@@ -15,11 +15,8 @@
 //     OPL internal interface.
 //
 
-
 #ifndef OPL_INTERNAL_H
 #define OPL_INTERNAL_H
-
-#include "opl.h"
 
 int OPL_SDL_Init(unsigned int port_base);
 void OPL_SDL_Shutdown();
@@ -31,17 +28,6 @@ void OPL_SDL_Lock(void);
 void OPL_SDL_Unlock(void);
 void OPL_SDL_SetPaused(int paused);
 void OPL_SDL_AdjustCallbacks(float factor);
-
-typedef void (*opl_set_paused_func)(int paused);
-typedef void (*opl_adjust_callbacks_func)(float value);
-
-typedef struct
-{
-    const char *name;
-    opl_adjust_callbacks_func adjust_callbacks_func;
-} opl_driver_t;
-
-// Sample rate to use when doing software emulation.
 
 #endif /* #ifndef OPL_INTERNAL_H */
 
