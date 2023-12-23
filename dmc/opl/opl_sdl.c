@@ -444,8 +444,7 @@ void OPL_SDL_PortWrite(opl_port_t port, unsigned int value)
     }
 }
 
-static void OPL_SDL_SetCallback(uint64_t us, opl_callback_t callback,
-                                void *data)
+void OPL_SDL_SetCallback(uint64_t us, opl_callback_t callback, void *data)
 {
     SDL_LockMutex(callback_queue_mutex);
     OPL_Queue_Push(callback_queue, callback, data,
@@ -482,7 +481,7 @@ opl_driver_t opl_sdl_driver =
     // OPL_SDL_Shutdown,
     // OPL_SDL_PortRead,
     // OPL_SDL_PortWrite,
-    OPL_SDL_SetCallback,
+    // OPL_SDL_SetCallback,
     OPL_SDL_ClearCallbacks,
     OPL_SDL_Lock,
     OPL_SDL_Unlock,

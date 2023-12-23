@@ -25,8 +25,8 @@ int OPL_SDL_Init(unsigned int port_base);
 void OPL_SDL_Shutdown();
 unsigned int OPL_SDL_PortRead(opl_port_t port);
 void OPL_SDL_PortWrite(opl_port_t port, unsigned int value);
+void OPL_SDL_SetCallback(uint64_t us, opl_callback_t callback, void *data);
 
-typedef void (*opl_write_port_func)(opl_port_t port, unsigned int value);
 typedef void (*opl_set_callback_func)(uint64_t us,
                                       opl_callback_t callback,
                                       void *data);
@@ -39,7 +39,6 @@ typedef void (*opl_adjust_callbacks_func)(float value);
 typedef struct
 {
     const char *name;
-    opl_set_callback_func set_callback_func;
     opl_clear_callbacks_func clear_callbacks_func;
     opl_lock_func lock_func;
     opl_unlock_func unlock_func;
