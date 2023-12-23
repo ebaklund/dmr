@@ -30,6 +30,7 @@ void OPL_SDL_ClearCallbacks(void);
 void OPL_SDL_Lock(void);
 void OPL_SDL_Unlock(void);
 void OPL_SDL_SetPaused(int paused);
+void OPL_SDL_AdjustCallbacks(float factor);
 
 typedef void (*opl_set_paused_func)(int paused);
 typedef void (*opl_adjust_callbacks_func)(float value);
