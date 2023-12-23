@@ -179,34 +179,8 @@ void OPL_WritePort(opl_port_t port, unsigned int value)
 
 unsigned int OPL_ReadPort(opl_port_t port)
 {
-    if (driver != NULL)
-    {
-        unsigned int result;
-
-#ifdef OPL_DEBUG_TRACE
-        printf("OPL_read: %i...\n", port);
-        fflush(stdout);
-#endif
-
-        result = driver->read_port_func(port);
-
-#ifdef OPL_DEBUG_TRACE
-        printf("OPL_read: %i -> %x\n", port, result);
-        fflush(stdout);
-#endif
-
-        return result;
-    }
-    else
-    {
-        return 0;
-    }
+    return OPL_SDL_PortRead(port);
 }
-
-//
-// Higher-level functions, based on the lower-level functions above
-// (register write, etc).
-//
 
 unsigned int OPL_ReadStatus(void)
 {

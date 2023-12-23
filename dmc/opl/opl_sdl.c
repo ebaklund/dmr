@@ -343,7 +343,7 @@ int OPL_SDL_Init(unsigned int port_base)
     return 1;
 }
 
-static unsigned int OPL_SDL_PortRead(opl_port_t port)
+unsigned int OPL_SDL_PortRead(opl_port_t port)
 {
     unsigned int result = 0;
 
@@ -480,7 +480,7 @@ opl_driver_t opl_sdl_driver =
     "SDL",
     // OPL_SDL_Init,
     // OPL_SDL_Shutdown,
-    OPL_SDL_PortRead,
+    // OPL_SDL_PortRead,
     OPL_SDL_PortWrite,
     OPL_SDL_SetCallback,
     OPL_SDL_ClearCallbacks,
