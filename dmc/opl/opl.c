@@ -70,7 +70,7 @@ static opl_init_result_t InitDriver(opl_driver_t *_driver,
     if (result1 == OPL_INIT_NONE || result2 == OPL_INIT_NONE)
     {
         printf("OPL_Init: No OPL detected using '%s' driver.\n", _driver->name);
-        _driver->shutdown_func();
+        OPL_SDL_Shutdown();
         driver = NULL;
         return OPL_INIT_NONE;
     }
@@ -150,11 +150,7 @@ opl_init_result_t OPL_Init(unsigned int port_base)
 
 void OPL_Shutdown(void)
 {
-    if (driver != NULL)
-    {
-        driver->shutdown_func();
-        driver = NULL;
-    }
+    OPL_SDL_Shutdown();
 }
 
 // Set the sample rate used for software OPL emulation.

@@ -217,7 +217,7 @@ static void OPL_Mix_Callback(void *udata, Uint8 *buffer, int len)
     }
 }
 
-static void OPL_SDL_Shutdown(void)
+void OPL_SDL_Shutdown(void)
 {
     Mix_HookMusic(NULL, NULL);
 
@@ -479,7 +479,7 @@ opl_driver_t opl_sdl_driver =
 {
     "SDL",
     // OPL_SDL_Init,
-    OPL_SDL_Shutdown,
+    // OPL_SDL_Shutdown,
     OPL_SDL_PortRead,
     OPL_SDL_PortWrite,
     OPL_SDL_SetCallback,
