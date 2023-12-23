@@ -428,7 +428,7 @@ static void WriteRegister(unsigned int reg_num, unsigned int value)
     }
 }
 
-static void OPL_SDL_PortWrite(opl_port_t port, unsigned int value)
+void OPL_SDL_PortWrite(opl_port_t port, unsigned int value)
 {
     if (port == OPL_REGISTER_PORT)
     {
@@ -481,7 +481,7 @@ opl_driver_t opl_sdl_driver =
     // OPL_SDL_Init,
     // OPL_SDL_Shutdown,
     // OPL_SDL_PortRead,
-    OPL_SDL_PortWrite,
+    // OPL_SDL_PortWrite,
     OPL_SDL_SetCallback,
     OPL_SDL_ClearCallbacks,
     OPL_SDL_Lock,

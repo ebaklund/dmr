@@ -167,14 +167,7 @@ void OPL_SetSampleRate(unsigned int rate)
 
 void OPL_WritePort(opl_port_t port, unsigned int value)
 {
-    if (driver != NULL)
-    {
-#ifdef OPL_DEBUG_TRACE
-        printf("OPL_write: %i, %x\n", port, value);
-        fflush(stdout);
-#endif
-        driver->write_port_func(port, value);
-    }
+    OPL_SDL_PortWrite(port, value);
 }
 
 unsigned int OPL_ReadPort(opl_port_t port)
