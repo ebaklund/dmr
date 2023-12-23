@@ -45,7 +45,7 @@ static SDL_mutex *callback_mutex = NULL;
 
 // Queue of callbacks waiting to be invoked.
 
-static opl_callback_queue_t *callback_queue;
+static void* callback_queue;
 
 // Mutex used to control access to the callback queue.
 
@@ -475,13 +475,6 @@ static void OPL_SDL_SetPaused(int paused)
     opl_sdl_paused = paused;
 }
 
-static void OPL_SDL_AdjustCallbacks(float factor)
-{
-    SDL_LockMutex(callback_queue_mutex);
-    OPL_Queue_AdjustCallbacks(callback_queue, current_time, factor);
-    SDL_UnlockMutex(callback_queue_mutex);
-}
-
 opl_driver_t opl_sdl_driver =
 {
     "SDL",
@@ -494,6 +487,5 @@ opl_driver_t opl_sdl_driver =
     OPL_SDL_Lock,
     OPL_SDL_Unlock,
     OPL_SDL_SetPaused,
-    OPL_SDL_AdjustCallbacks,
 };
 
