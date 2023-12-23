@@ -25,7 +25,7 @@
 #include "SDL_mixer.h"
 #include "opl3.h"
 #include "opl.h"
-#include "opl_internal.h"
+#include "opl_sdl.h"
 #include "opl_queue.h"
 
 #define MAX_SOUND_SLICE_TIME 100 /* ms */
@@ -267,7 +267,7 @@ static unsigned int GetSliceSize(void)
     return 1024;
 }
 
-static int OPL_SDL_Init(unsigned int port_base)
+int OPL_SDL_Init(unsigned int port_base)
 {
     // Check if SDL_mixer has been opened already
     // If not, we must initialize it now
@@ -478,7 +478,7 @@ static void OPL_SDL_SetPaused(int paused)
 opl_driver_t opl_sdl_driver =
 {
     "SDL",
-    OPL_SDL_Init,
+    // OPL_SDL_Init,
     OPL_SDL_Shutdown,
     OPL_SDL_PortRead,
     OPL_SDL_PortWrite,

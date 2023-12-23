@@ -21,7 +21,8 @@
 
 #include "opl.h"
 
-typedef int (*opl_init_func)(unsigned int port_base);
+int OPL_SDL_Init(unsigned int port_base);
+
 typedef void (*opl_shutdown_func)(void);
 typedef unsigned int (*opl_read_port_func)(opl_port_t port);
 typedef void (*opl_write_port_func)(opl_port_t port, unsigned int value);
@@ -38,7 +39,6 @@ typedef struct
 {
     const char *name;
 
-    opl_init_func init_func;
     opl_shutdown_func shutdown_func;
     opl_read_port_func read_port_func;
     opl_write_port_func write_port_func;

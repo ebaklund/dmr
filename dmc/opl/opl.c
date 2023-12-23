@@ -23,7 +23,7 @@
 #include "SDL.h"
 
 #include "opl.h"
-#include "opl_internal.h"
+#include "opl_sdl.h"
 
 extern opl_driver_t opl_sdl_driver;
 
@@ -52,7 +52,7 @@ static opl_init_result_t InitDriver(opl_driver_t *_driver,
 
     // Initialize the driver.
 
-    if (!_driver->init_func(port_base))
+    if (!OPL_SDL_Init(port_base))
     {
         return OPL_INIT_NONE;
     }
