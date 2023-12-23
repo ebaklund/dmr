@@ -248,7 +248,7 @@ static unsigned int GetSliceSize(void)
     int limit;
     int n;
 
-    limit = (opl_sample_rate * MAX_SOUND_SLICE_TIME) / 1000;
+    limit = (OPL_GetSampleRate() * MAX_SOUND_SLICE_TIME) / 1000;
 
     // Try all powers of two, not exceeding the limit.
 
@@ -280,7 +280,7 @@ static int OPL_SDL_Init(unsigned int port_base)
             return 0;
         }
 
-        if (Mix_OpenAudio(opl_sample_rate, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
+        if (Mix_OpenAudio(OPL_GetSampleRate(), AUDIO_S16SYS, 2, GetSliceSize()) < 0)
         {
             fprintf(stderr, "Error initialising SDL_mixer: %s\n", Mix_GetError());
 

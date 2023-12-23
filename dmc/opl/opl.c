@@ -159,6 +159,11 @@ void OPL_Shutdown(void)
 
 // Set the sample rate used for software OPL emulation.
 
+int OPL_GetSampleRate()
+{
+    return opl_sample_rate;
+}
+
 void OPL_SetSampleRate(unsigned int rate)
 {
     opl_sample_rate = rate;

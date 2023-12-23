@@ -52,7 +52,5 @@ typedef struct
 
 // Sample rate to use when doing software emulation.
 
-extern unsigned int opl_sample_rate;
-
 #endif /* #ifndef OPL_INTERNAL_H */
 

@@ -82,7 +82,7 @@ opl_init_result_t OPL_Init(unsigned int port_base);
 void OPL_Shutdown(void);
 
 // Set the sample rate used for software emulation.
-
+int OPL_GetSampleRate();
 void OPL_SetSampleRate(unsigned int rate);
 
 // Write to one of the OPL I/O ports:
