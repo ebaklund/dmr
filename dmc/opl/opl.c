@@ -383,10 +383,7 @@ void OPL_Lock(void)
 
 void OPL_Unlock(void)
 {
-    if (driver != NULL)
-    {
-        driver->unlock_func();
-    }
+    OPL_SDL_Unlock();
 }
 
 typedef struct
