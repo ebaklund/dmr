@@ -266,13 +266,12 @@ void I_DisplayFPSDots(boolean dots_on)
 
 static void SetShowCursor(boolean show)
 {
-    if (!screensaver_mode)
-    {
-        // When the cursor is hidden, grab the input.
-        // Relative mode implicitly hides the cursor.
-        SDL_SetRelativeMouseMode(!show);
-        SDL_GetRelativeMouseState(NULL, NULL);
-    }
+    show = show || screensaver_mode || (getenv("DOOM_SHOW_CURSOR") != NULL);
+
+    // When the cursor is hidden, grab the input.
+    // Relative mode implicitly hides the cursor.
+    SDL_SetRelativeMouseMode(!show);
+    SDL_GetRelativeMouseState(NULL, NULL);
 }
 
 void I_ShutdownGraphics(void)

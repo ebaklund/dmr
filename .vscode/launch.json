@@ -22,7 +22,7 @@
       "args": ["--iwad", "doom-wad-shareware-1.9.fixed/doom1.wad"],
       "cwd": "${workspaceFolder}",
       "env": {
-        "XSCREENSAVER_WINDOW": "1" // Keep cursor visible or debug is impossible
+        "DOOM_SHOW_CURSOR": "1" // Keep cursor visible or debug is impossible
       }
     },
     {
