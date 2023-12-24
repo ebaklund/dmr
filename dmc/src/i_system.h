@@ -61,12 +61,6 @@ boolean I_GetMemoryValue(unsigned int offset, void *value, int size);
 
 void I_AtExit(atexit_func_t func, boolean run_if_error);
 
-// Add all system-specific config file variable bindings.
-
-void I_BindVariables(void);
-
-// Print startup banner copyright message.
-
 void I_PrintStartupBanner(const char *gamedescription);
 
 // Print a dividing line for startup banners.

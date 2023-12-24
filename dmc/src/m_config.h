@@ -26,11 +26,6 @@ void M_LoadDefaults(void);
 void M_SaveDefaults(void);
 void M_SetConfigDir(const char *dir);
 void M_SetMusicPackDir(void);
-void M_BindIntVariable(const char *name, int *variable);
-void M_BindFloatVariable(const char *name, float *variable);
-void M_BindStringVariable(const char *name, char **variable);
-boolean M_SetVariable(const char *name, const char *value);
-const char *M_GetStringVariable(const char *name);
 void M_SetConfigFilenames(const char *main_config, const char *extra_config);
 
 extern const char *configdir;

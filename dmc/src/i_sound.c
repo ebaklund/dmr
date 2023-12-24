@@ -456,35 +456,6 @@ void I_StopSong(void)
     }
 }
 
-void I_BindSoundVariables(void)
-{
-    extern char *snd_dmxoption;
-    extern int use_libsamplerate;
-    extern float libsamplerate_scale;
-
-    M_BindIntVariable("snd_musicdevice",         &snd_musicdevice);
-    M_BindIntVariable("snd_sfxdevice",           &snd_sfxdevice);
-    M_BindIntVariable("snd_sbport",              &snd_sbport);
-    M_BindIntVariable("snd_sbirq",               &snd_sbirq);
-    M_BindIntVariable("snd_sbdma",               &snd_sbdma);
-    M_BindIntVariable("snd_mport",               &snd_mport);
-    M_BindIntVariable("snd_maxslicetime_ms",     &snd_maxslicetime_ms);
-    M_BindStringVariable("snd_musiccmd",         &snd_musiccmd);
-    M_BindStringVariable("snd_dmxoption",        &snd_dmxoption);
-    M_BindIntVariable("snd_samplerate",          &snd_samplerate);
-    M_BindIntVariable("snd_cachesize",           &snd_cachesize);
-    M_BindIntVariable("opl_io_port",             &opl_io_port);
-    M_BindIntVariable("snd_pitchshift",          &snd_pitchshift);
-
-    M_BindStringVariable("music_pack_path",      &music_pack_path);
-    M_BindStringVariable("timidity_cfg_path",    &timidity_cfg_path);
-    M_BindStringVariable("gus_patch_path",       &gus_patch_path);
-    M_BindIntVariable("gus_ram_kb",              &gus_ram_kb);
-
-    M_BindIntVariable("use_libsamplerate",       &use_libsamplerate);
-    M_BindFloatVariable("libsamplerate_scale",   &libsamplerate_scale);
-}
-
 static char *temp_timidity_cfg = NULL;
 
 

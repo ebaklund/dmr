@@ -319,101 +319,6 @@ void EnableLoadingDisk(void)  // [crispy] un-static
 }
 
 //
-// Add configuration file variable bindings.
-//
-
-void D_BindVariables(void)
-{
-  int i;
-
-  M_ApplyPlatformDefaults();
-
-  I_BindInputVariables();
-  I_BindVideoVariables();
-  I_BindJoystickVariables();
-  I_BindSoundVariables();
-
-  M_BindBaseControls();
-  M_BindWeaponControls();
-  M_BindMapControls();
-  M_BindMenuControls();
-  M_BindChatControls(MAXPLAYERS);
-
-  key_multi_msgplayer[0] = HUSTR_KEYGREEN;
-  key_multi_msgplayer[1] = HUSTR_KEYINDIGO;
-  key_multi_msgplayer[2] = HUSTR_KEYBROWN;
-  key_multi_msgplayer[3] = HUSTR_KEYRED;
-
-  M_BindIntVariable("mouse_sensitivity", &mouseSensitivity);
-  M_BindIntVariable("mouse_sensitivity_x2", &mouseSensitivity_x2);  // [crispy]
-  M_BindIntVariable("mouse_sensitivity_y", &mouseSensitivity_y);    // [crispy]
-  M_BindIntVariable("sfx_volume", &sfxVolume);
-  M_BindIntVariable("music_volume", &musicVolume);
-  M_BindIntVariable("show_messages", &showMessages);
-  M_BindIntVariable("screenblocks", &screenblocks);
-  M_BindIntVariable("detaillevel", &detailLevel);
-  M_BindIntVariable("snd_channels", &snd_channels);
-  // [crispy] unconditionally disable savegame and demo limits
-  //  M_BindIntVariable("vanilla_savegame_limit", &vanilla_savegame_limit);
-  //  M_BindIntVariable("vanilla_demo_limit",     &vanilla_demo_limit);
-  M_BindIntVariable("show_diskicon", &show_diskicon);
-
-  // Multiplayer chat macros
-
-  for (i = 0; i < 10; ++i)
-  {
-    char buf[12];
-
-    M_snprintf(buf, sizeof(buf), "chatmacro%i", i);
-    M_BindStringVariable(buf, &chat_macros[i]);
-  }
-
-  // [crispy] bind "crispness" config variables
-  M_BindIntVariable("crispy_automapoverlay", &crispy->automapoverlay);
-  M_BindIntVariable("crispy_automaprotate", &crispy->automaprotate);
-  M_BindIntVariable("crispy_automapstats", &crispy->automapstats);
-  M_BindIntVariable("crispy_bobfactor", &crispy->bobfactor);
-  M_BindIntVariable("crispy_brightmaps", &crispy->brightmaps);
-  M_BindIntVariable("crispy_centerweapon", &crispy->centerweapon);
-  M_BindIntVariable("crispy_coloredblood", &crispy->coloredblood);
-  M_BindIntVariable("crispy_coloredhud", &crispy->coloredhud);
-  M_BindIntVariable("crispy_crosshair", &crispy->crosshair);
-  M_BindIntVariable("crispy_crosshairhealth", &crispy->crosshairhealth);
-  M_BindIntVariable("crispy_crosshairtarget", &crispy->crosshairtarget);
-  M_BindIntVariable("crispy_crosshairtype", &crispy->crosshairtype);
-  M_BindIntVariable("crispy_demobar", &crispy->demobar);
-  M_BindIntVariable("crispy_demotimer", &crispy->demotimer);
-  M_BindIntVariable("crispy_demotimerdir", &crispy->demotimerdir);
-  M_BindIntVariable("crispy_extautomap", &crispy->extautomap);
-  M_BindIntVariable("crispy_extsaveg", &crispy->extsaveg);
-  M_BindIntVariable("crispy_flipcorpses", &crispy->flipcorpses);
-  M_BindIntVariable("crispy_freeaim", &crispy->freeaim);
-  M_BindIntVariable("crispy_freelook", &crispy->freelook);
-  M_BindIntVariable("crispy_hires", &crispy->hires);
-  M_BindIntVariable("crispy_jump", &crispy->jump);
-  M_BindIntVariable("crispy_leveltime", &crispy->leveltime);
-  M_BindIntVariable("crispy_mouselook", &crispy->mouselook);
-  M_BindIntVariable("crispy_neghealth", &crispy->neghealth);
-  M_BindIntVariable("crispy_overunder", &crispy->overunder);
-  M_BindIntVariable("crispy_pitch", &crispy->pitch);
-  M_BindIntVariable("crispy_playercoords", &crispy->playercoords);
-  M_BindIntVariable("crispy_recoil", &crispy->recoil);
-  M_BindIntVariable("crispy_secretmessage", &crispy->secretmessage);
-  M_BindIntVariable("crispy_smoothlight", &crispy->smoothlight);
-  M_BindIntVariable("crispy_smoothscaling", &crispy->smoothscaling);
-  M_BindIntVariable("crispy_soundfix", &crispy->soundfix);
-  M_BindIntVariable("crispy_soundfull", &crispy->soundfull);
-  M_BindIntVariable("crispy_soundmono", &crispy->soundmono);
-  M_BindIntVariable("crispy_translucency", &crispy->translucency);
-#ifdef CRISPY_TRUECOLOR
-  M_BindIntVariable("crispy_truecolor", &crispy->truecolor);
-#endif
-  M_BindIntVariable("crispy_uncapped", &crispy->uncapped);
-  M_BindIntVariable("crispy_vsync", &crispy->vsync);
-  M_BindIntVariable("crispy_weaponsquat", &crispy->weaponsquat);
-}
-
-//
 // D_GrabMouseCallback
 //
 // Called to determine whether to grab the mouse pointer
@@ -1083,7 +988,6 @@ void D_DoomMain(char* iwadfile)
   // Load configuration files before initialising other subsystems.
   DEH_printf("M_LoadDefaults: Load system defaults.\n");
   M_SetConfigFilenames("default.cfg", PROGRAM_PREFIX "doom.cfg");
-  D_BindVariables();
   M_LoadDefaults();
 
   // Save configuration at exit.

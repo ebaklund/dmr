@@ -377,27 +377,3 @@ void I_UpdateJoystick(void)
     }
 }
 
-void I_BindJoystickVariables(void)
-{
-    int i;
-
-    M_BindIntVariable("use_joystick",          &usejoystick);
-    M_BindStringVariable("joystick_guid",      &joystick_guid);
-    M_BindIntVariable("joystick_index",        &joystick_index);
-    M_BindIntVariable("joystick_x_axis",       &joystick_x_axis);
-    M_BindIntVariable("joystick_y_axis",       &joystick_y_axis);
-    M_BindIntVariable("joystick_strafe_axis",  &joystick_strafe_axis);
-    M_BindIntVariable("joystick_x_invert",     &joystick_x_invert);
-    M_BindIntVariable("joystick_y_invert",     &joystick_y_invert);
-    M_BindIntVariable("joystick_strafe_invert",&joystick_strafe_invert);
-    M_BindIntVariable("joystick_look_axis",    &joystick_look_axis);
-    M_BindIntVariable("joystick_look_invert",  &joystick_look_invert);
-
-    for (i = 0; i < NUM_VIRTUAL_BUTTONS; ++i)
-    {
-        char name[32];
-        M_snprintf(name, sizeof(name), "joystick_physical_button%i", i);
-        M_BindIntVariable(name, &joystick_physical_buttons[i]);
-    }
-}
-

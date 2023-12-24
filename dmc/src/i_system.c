@@ -116,24 +116,6 @@ boolean I_ConsoleStdout(void)
 }
 
 //
-// I_Init
-//
-/*
-void I_Init (void)
-{
-    I_CheckIsScreensaver();
-    I_InitTimer();
-    I_InitJoystick();
-}
-void I_BindVariables(void)
-{
-    I_BindVideoVariables();
-    I_BindJoystickVariables();
-    I_BindSoundVariables();
-}
-*/
-
-//
 // I_Quit
 //
 

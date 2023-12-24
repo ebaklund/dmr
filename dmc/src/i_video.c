@@ -266,7 +266,7 @@ void I_DisplayFPSDots(boolean dots_on)
 
 static void SetShowCursor(boolean show)
 {
-    static old_show = true;
+    static int old_show = true;
 
     int new_show = show || screensaver_mode || (getenv("DOOM_SHOW_CURSOR") != NULL);
 
@@ -1854,77 +1854,3 @@ void I_RenderReadPixels(byte **data, int *w, int *h, int *p)
 
 	SDL_FreeFormat(format);
 }
-
-// Bind all variables controlling video options into the configuration
-// file system.
-void I_BindVideoVariables(void)
-{
-    M_BindIntVariable("use_mouse",                 &usemouse);
-    M_BindIntVariable("fullscreen",                &fullscreen);
-    M_BindIntVariable("video_display",             &video_display);
-    M_BindIntVariable("aspect_ratio_correct",      &aspect_ratio_correct);
-    M_BindIntVariable("integer_scaling",           &integer_scaling);
-    M_BindIntVariable("vga_porch_flash",           &vga_porch_flash);
-    M_BindIntVariable("startup_delay",             &startup_delay);
-    M_BindIntVariable("fullscreen_width",          &fullscreen_width);
-    M_BindIntVariable("fullscreen_height",         &fullscreen_height);
-    M_BindIntVariable("force_software_renderer",   &force_software_renderer);
-    M_BindIntVariable("max_scaling_buffer_pixels", &max_scaling_buffer_pixels);
-    M_BindIntVariable("window_width",              &window_width);
-    M_BindIntVariable("window_height",             &window_height);
-    M_BindIntVariable("grabmouse",                 &grabmouse);
-    M_BindStringVariable("video_driver",           &video_driver);
-    M_BindStringVariable("window_position",        &window_position);
-    M_BindIntVariable("usegamma",                  &usegamma);
-    M_BindIntVariable("png_screenshots",           &png_screenshots);
-}
-
-#ifdef CRISPY_TRUECOLOR
-const pixel_t I_BlendAdd (const pixel_t bg, const pixel_t fg)
-{
-	uint32_t r, g, b;
-
-	if ((r = (fg & rmask) + (bg & rmask)) > rmask) r = rmask;
-	if ((g = (fg & gmask) + (bg & gmask)) > gmask) g = gmask;
-	if ((b = (fg & bmask) + (bg & bmask)) > bmask) b = bmask;
-
-	return amask | r | g | b;
-}
-
-// [crispy] http://stereopsis.com/doubleblend.html
-const pixel_t I_BlendDark (const pixel_t bg, const int d)
-{
-	const uint32_t ag = (bg & 0xff00ff00) >> 8;
-	const uint32_t rb =  bg & 0x00ff00ff;
-
-	uint32_t sag = d * ag;
-	uint32_t srb = d * rb;
-
-	sag = sag & 0xff00ff00;
-	srb = (srb >> 8) & 0x00ff00ff;
-
-	return amask | sag | srb;
-}
-
-const pixel_t I_BlendOver (const pixel_t bg, const pixel_t fg)
-{
-	const uint32_t r = ((blend_alpha * (fg & rmask) + (0xff - blend_alpha) * (bg & rmask)) >> 8) & rmask;
-	const uint32_t g = ((blend_alpha * (fg & gmask) + (0xff - blend_alpha) * (bg & gmask)) >> 8) & gmask;
-	const uint32_t b = ((blend_alpha * (fg & bmask) + (0xff - blend_alpha) * (bg & bmask)) >> 8) & bmask;
-
-	return amask | r | g | b;
-}
-
-const pixel_t (*blendfunc) (const pixel_t fg, const pixel_t bg) = I_BlendOver;
-
-const pixel_t I_MapRGB (const uint8_t r, const uint8_t g, const uint8_t b)
-{
-/*
-	return amask |
-	        (((r * rmask) >> 8) & rmask) |
-	        (((g * gmask) >> 8) & gmask) |
-	        (((b * bmask) >> 8) & bmask);
-*/
-	return SDL_MapRGB(argbbuffer->format, r, g, b);
-}
-#endif

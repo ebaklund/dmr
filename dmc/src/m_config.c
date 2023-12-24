@@ -2307,22 +2307,7 @@ void M_SaveDefaults (void)
 
 void M_LoadDefaults (void)
 {
-    int i;
-
-    // This variable is a special snowflake for no good reason.
-    M_BindStringVariable("autoload_path", &autoload_path);
-
-    // check for a custom default file
-
-    //!
-    // @arg <file>
-    // @vanilla
-    //
-    // Load main configuration from the specified file, instead of the
-    // default.
-    //
-
-    i = M_CheckParmWithArgs("-config", 1);
+    int i = M_CheckParmWithArgs("-config", 1);
 
     if (i)
     {
@@ -2385,45 +2370,6 @@ static default_t *GetDefaultForName(const char *name)
     }
 
     return result;
-}
-
-//
-// Bind a variable to a given configuration file variable, by name.
-//
-
-void M_BindIntVariable(const char *name, int *location)
-{
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
-    assert(variable->type == DEFAULT_INT
-        || variable->type == DEFAULT_INT_HEX
-        || variable->type == DEFAULT_KEY);
-
-    variable->location.i = location;
-    variable->bound = true;
-}
-
-void M_BindFloatVariable(const char *name, float *location)
-{
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
-    assert(variable->type == DEFAULT_FLOAT);
-
-    variable->location.f = location;
-    variable->bound = true;
-}
-
-void M_BindStringVariable(const char *name, char **location)
-{
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
-    assert(variable->type == DEFAULT_STRING);
-
-    variable->location.s = location;
-    variable->bound = true;
 }
 
 // Set the value of a particular variable; an API function for other

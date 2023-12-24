@@ -477,15 +477,3 @@ void I_ReadMouse(void)
         D_PostEvent(&ev);
     }
 }
-
-// Bind all variables controlling input options.
-void I_BindInputVariables(void)
-{
-    M_BindFloatVariable("mouse_acceleration",      &mouse_acceleration);
-    M_BindIntVariable("mouse_threshold",           &mouse_threshold);
-    M_BindIntVariable("vanilla_keyboard_mapping",  &vanilla_keyboard_mapping);
-    M_BindIntVariable("novert",                    &novert);
-    M_BindFloatVariable("mouse_acceleration_y",    &mouse_acceleration_y); // [crispy]
-    M_BindIntVariable("mouse_threshold_y",         &mouse_threshold_y); // [crispy]
-    M_BindIntVariable("mouse_y_invert",            &mouse_y_invert); // [crispy]
-}
