@@ -67,13 +67,6 @@ static opl_init_result_t InitDriver(unsigned int port_base)
     return result2;
 }
 
-// Find a driver automatically by trying each in the list.
-
-static opl_init_result_t AutoSelectDriver(unsigned int port_base)
-{
-    return InitDriver(port_base);
-}
-
 // Initialize the OPL library. Return value indicates type of OPL chip
 // detected, if any.
 
