@@ -8,7 +8,7 @@ mod d_game;
 mod m_argv;
 mod m_box;
 mod m_fixed;
-mod opl_queue;
+mod sound;
 pub mod w_wad;
 
 use d_game::DGame;

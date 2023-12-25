@@ -7,15 +7,6 @@ use std::cmp::Ordering;
 
 // PRIVATE
 
-/*
-typedef struct
-{
-    opl_callback_t callback;
-    void *data;
-    uint64_t time;
-} opl_queue_entry_t;
-*/
-
 type OplCallback = fn(*mut c_void);
 
 struct OplQueueEntry {
