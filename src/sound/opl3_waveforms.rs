@@ -11,98 +11,6 @@ use std::convert::From;
 // https://moddingwiki.shikadi.net/wiki/OP2_Bank_Format
 // https://cosmodoc.org/topics/adlib-functions/
 
-pub struct Opl3Channel {
-    slots: *mut [Opl3Slot; 2],
-    pair: *mut Opl3Channel,
-    chip: *mut Opl3Chip,
-    out: *mut [i16; 4],
-    chtype: u8,
-    f_num: u16,  // Frequency Value (high 2 bits)
-    block: u8,   // Octave (Block) Value
-    fb: u8,      // Feedback Depth
-    con: u8,     // Connection Type
-    alg: u8,
-    ksv: u8,
-    cha: u16,
-    chb: u16,
-    ch_num: u8,
-}
-
-pub struct Opl3Slot {
-    channel: *mut Opl3Channel,
-    chip: *mut Opl3Chip,
-    out: i16,
-    fbmod: i16,
-    mmod: *mut i16,
-    prout: i16,
-    eg_rout: i16,
-    eg_out: i16,
-    eg_inc: u8,
-    eg_gen: u8,
-    eg_rate: u8,
-    eg_ksl: u8,
-    trem: *mut u8,
-    reg_vib: u8,     // Vibrato Enable
-    reg_type: u8,    // Envelope Generator Type
-    reg_ksr: u8,     // “Key Scaling of Rate” Value
-    reg_mult: u8,    // Frequency Multiplier Value
-    reg_ksl: u8,     // “Key Scaling of Level” Value
-    reg_tl: u8,      // Total Level Value
-    reg_ar: u8,      // Attack Rate
-    reg_dr: u8,      //	Decay Rate
-    reg_sl: u8,      // Sustain Level Value
-    reg_rr: u8,      // Release Rate
-    reg_wf: u8,      // Waveform Selection
-    key: u8,
-    pg_reset: u32,
-    pg_phase: u32,
-    pg_phase_out: u16,
-    slot_num: u8,
-}
-
-pub struct Opl3Writebuf {
-    time: u64,
-    reg: u16,
-    data: u8,
-}
-
-struct Opl3Chip {
-    channel: [Opl3Channel; 18],
-    slot: [Opl3Slot; 36],
-    timer: u16,
-    eg_timer: u64,
-    eg_timerrem: u8,
-    eg_state: u8,
-    eg_add: u8,
-    newm: u8,
-    nts: u8,
-    rhy: u8,
-    vibpos: u8,
-    vibshift: u8,
-    tremolo: u8,
-    tremolopos: u8,
-    tremoloshift: u8,
-    noise: u32,
-    zeromod: i16,
-    mixbuff: [i32; 2],
-    rm_hh_bit2: u8, // Hi-Hat Key-On
-    rm_hh_bit3: u8, // Hi-Hat Key-On
-    rm_hh_bit7: u8, // Hi-Hat Key-On
-    rm_hh_bit8: u8, // Hi-Hat Key-On
-    rm_tc_bit3: u8, // Top Cymbal Key-On
-    rm_tc_bit5: u8, // Top Cymbal Key-On
-    //OPL3L
-    rateratio: i32,
-    samplecnt: i32,
-    oldsamples: [i16; 2],
-    samples: [i16; 2],
-
-    writebuf_samplecnt: u64,
-    writebuf_cur: u32,
-    writebuf_last: u32,
-    writebuf_lasttime: u64,
-    writebuf: [Opl3Writebuf; 1024],
-}
 
 enum OplChannelType {
     Ch2op = 0,
@@ -261,19 +169,18 @@ where T: Shr<T, Output = T> + From<u8> + PartialOrd,
     ternary!(shr < bit_size => val.shr(shr), T::from(0))
 }
 
-// PUBLIC
-
-#[no_mangle]
-pub extern "C" fn  OPL3_EnvelopeCalcExp(raw_level: u16) -> u16 {
+fn  envelope_calc_exp(raw_level: u16) -> u16 {
     let level = cmp::min(raw_level, 0x1fff);
     let out = EXP_ROM[(level & 0xff) as usize] << 1;
     
     idempotent_shr(out, level >> 8)
 }
 
+// PUBLIC
+
 //   _-_
 //  /   \
-// *-----*-----* Unmodified sine wave
+// *-----*-----* Pure sine wave
 //        \_ _/
 //          -
 
@@ -281,7 +188,7 @@ pub extern "C" fn  OPL3_EnvelopeCalcExp(raw_level: u16) -> u16 {
 pub extern "C" fn OPL3_EnvelopeCalcSin0(phase: u16, envelope: u16) -> u16 {
     let out = log_sin(phase);
 
-    return OPL3_EnvelopeCalcExp(out + (envelope << 3)) ^ half_cycle_mask(phase);
+    return envelope_calc_exp(out + (envelope << 3)) ^ half_cycle_mask(phase);
 }
 
 //   _-_
@@ -293,7 +200,7 @@ pub extern "C" fn OPL3_EnvelopeCalcSin0(phase: u16, envelope: u16) -> u16 {
 pub extern "C" fn OPL3_EnvelopeCalcSin1(phase: u16, envelope: u16) -> u16 {
     let out = ternary!(half_cycle_odd(phase) => 0x1000, log_sin(phase));
 
-    return OPL3_EnvelopeCalcExp(out + (envelope << 3));
+    return envelope_calc_exp(out + (envelope << 3));
 }
 
 //   _-_   _-_
@@ -305,7 +212,7 @@ pub extern "C" fn OPL3_EnvelopeCalcSin1(phase: u16, envelope: u16) -> u16 {
 pub extern "C" fn OPL3_EnvelopeCalcSin2(phase: u16, envelope: u16) -> u16 {
     let out = log_sin(phase);
 
-    return OPL3_EnvelopeCalcExp(out + (envelope << 3));
+    return envelope_calc_exp(out + (envelope << 3));
 }
 
 //   _-    _-
@@ -317,7 +224,7 @@ pub extern "C" fn OPL3_EnvelopeCalcSin2(phase: u16, envelope: u16) -> u16 {
 pub extern "C" fn OPL3_EnvelopeCalcSin3(phase: u16, envelope: u16) -> u16 {
     let out = ternary!(quart_cycle_odd(phase) => 0x1000, log_sin(phase));
 
-    return OPL3_EnvelopeCalcExp(out + (envelope << 3));
+    return envelope_calc_exp(out + (envelope << 3));
 }
 
 //   
@@ -332,7 +239,7 @@ pub extern "C" fn OPL3_EnvelopeCalcSin4(phase: u16, envelope: u16) -> u16 {
         _    => (log_sin(phase << 1), quart_cycle_mask(phase))
     };
 
-    return OPL3_EnvelopeCalcExp(out + (envelope << 3)) ^ quad_mask;
+    return envelope_calc_exp(out + (envelope << 3)) ^ quad_mask;
 }
 
 //   
@@ -344,7 +251,7 @@ pub extern "C" fn OPL3_EnvelopeCalcSin4(phase: u16, envelope: u16) -> u16 {
 pub extern "C" fn OPL3_EnvelopeCalcSin5(phase: u16, envelope: u16) -> u16 {
     let out = ternary!(half_cycle_odd(phase) => 0x1000, log_sin(phase << 1));
 
-    return OPL3_EnvelopeCalcExp(out + (envelope << 3));
+    return envelope_calc_exp(out + (envelope << 3));
 }
 
 //  _____
@@ -354,7 +261,7 @@ pub extern "C" fn OPL3_EnvelopeCalcSin5(phase: u16, envelope: u16) -> u16 {
 
 #[no_mangle]
 pub extern "C" fn OPL3_EnvelopeCalcSin6(phase: u16, envelope: u16) -> u16 {
-    return OPL3_EnvelopeCalcExp(envelope << 3) ^ half_cycle_mask(phase);
+    return envelope_calc_exp(envelope << 3) ^ half_cycle_mask(phase);
 }
 
 // |\
@@ -367,6 +274,6 @@ pub extern "C" fn OPL3_EnvelopeCalcSin6(phase: u16, envelope: u16) -> u16 {
 pub extern "C" fn OPL3_EnvelopeCalcSin7(phase: u16, envelope: u16) -> u16 {
     let out = phase << 3;
 
-    return OPL3_EnvelopeCalcExp(out + (envelope << 3)) ^ half_cycle_mask(phase);
+    return envelope_calc_exp(out + (envelope << 3)) ^ half_cycle_mask(phase);
 }
 

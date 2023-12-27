@@ -36,6 +36,8 @@ impl Ord for OplQueueEntry {
     }
 }
 
+// PUBLIC
+
 #[repr(C)] 
 pub struct OplQueue {
     entries: BTreeSet::<OplQueueEntry>

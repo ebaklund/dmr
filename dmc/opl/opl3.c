@@ -100,7 +100,6 @@ static const Bit8u ch_slot[18] = {
 //
 
 typedef Bit16s(*envelope_sinfunc)(Bit16u phase, Bit16u envelope);
-typedef void(*envelope_genfunc)(opl3_slot *slott);
 
 extern Bit16s OPL3_EnvelopeCalcSin0(Bit16u phase, Bit16u envelope);
 extern Bit16s OPL3_EnvelopeCalcSin1(Bit16u phase, Bit16u envelope);
