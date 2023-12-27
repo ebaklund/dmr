@@ -190,6 +190,9 @@ static Bit16s OPL3_EnvelopeCalcExp(Bit32u level)
     return (exprom[level & 0xff] << 1) >> (level >> 8);
 }
 
+extern Bit16s OPL3_EnvelopeCalcSin0(Bit16u phase, Bit16u envelope);
+
+/*
 static Bit16s OPL3_EnvelopeCalcSin0(Bit16u phase, Bit16u envelope)
 {
     Bit16u out = 0;
@@ -209,7 +212,7 @@ static Bit16s OPL3_EnvelopeCalcSin0(Bit16u phase, Bit16u envelope)
     }
     return OPL3_EnvelopeCalcExp(out + (envelope << 3)) ^ neg;
 }
-
+*/
 static Bit16s OPL3_EnvelopeCalcSin1(Bit16u phase, Bit16u envelope)
 {
     Bit16u out = 0;

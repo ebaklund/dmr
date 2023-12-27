@@ -9,6 +9,7 @@ edition = "2021"
 libc = "0.2.139"
 clap = { version = "4.0.32", features = ["derive", "cargo"] }
 assertor = "0.0.2"
+ternary-operator-macro = "0.0.1"
 
 [build-dependencies]
 cc = "1.0.78"
