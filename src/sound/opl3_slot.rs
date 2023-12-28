@@ -1,6 +1,10 @@
 
+use libc::c_void;
+
 use super::opl3_channel::Opl3Channel;
 use super::opl3_chip::Opl3Chip;
+
+// PRIVATE
 
 pub struct Opl3Slot {
     channel: *mut Opl3Channel,
@@ -34,19 +38,19 @@ pub struct Opl3Slot {
     slot_num: u8,
 }
 
-/*
-#[no_mangle]
-pub extern "C" fn OPL_Queue_AdjustCallbacks(qptr: *mut c_void, time: u64, factor: f32) {
-    unsafe {
-        let queue = &mut *(qptr as *mut OplQueue);
-
-        queue.entries = queue.entries.first().iter().map(|entry| {
-            OplQueueEntry {
-                callback: entry.callback,
-                data: entry.data,
-                time: time + ((entry.time - time) as f32 / factor) as u64
-            }
-        }).collect();
+impl Opl3Slot {
+    pub fn update_kls(&mut self) {
+        unsafe {
+            self.eg_ksl = (&*self.channel).get_kls();
+        }
     }
 }
-*/
+
+// PUBLIC
+
+#[no_mangle]
+pub extern "C" fn OPL3_EnvelopeUpdateKSL(sptr: *mut c_void) {
+    unsafe {
+        (&mut *(sptr as *mut Opl3Slot)).update_kls();
+    }
+}

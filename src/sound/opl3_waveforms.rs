@@ -1,6 +1,6 @@
 
 use ternary_operator_macro::ternary;
-use std::cmp;
+use std::cmp::min;
 use std::cmp::PartialOrd;
 use std::ops::Shr;
 use std::convert::From;
@@ -105,12 +105,6 @@ static FREQ_MULT: [u8; 16] = [
     1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 20, 24, 24, 30, 30
 ];
 
-// Key Scaling Level used to adjust the volume of a note based on its pitch.
-
-static  KSL_ROM: [u8; 16] = [
-    0, 32, 40, 45, 48, 51, 53, 55, 56, 58, 59, 60, 61, 62, 63, 64
-];
-
 static KSL_SHIFT: [u8; 4] = [
     8, 1, 2, 0
 ];
@@ -170,7 +164,7 @@ where T: Shr<T, Output = T> + From<u8> + PartialOrd,
 }
 
 fn  envelope_calc_exp(raw_level: u16) -> u16 {
-    let level = cmp::min(raw_level, 0x1fff);
+    let level = min(raw_level, 0x1fff);
     let out = EXP_ROM[(level & 0xff) as usize] << 1;
     
     idempotent_shr(out, level >> 8)
