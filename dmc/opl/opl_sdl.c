@@ -66,7 +66,12 @@ static uint64_t pause_offset;
 
 // OPL software emulator structure.
 
+#if 0
+static opl3_chip opl_chip = OPL3_Chip_Create();
+#else
 static opl3_chip opl_chip;
+#endif
+
 static int opl_opl3mode;
 
 // Temporary mixing buffer used by the mixing callback.

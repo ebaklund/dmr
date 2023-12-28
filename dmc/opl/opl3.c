@@ -129,6 +129,9 @@ enum envelope_gen_num
     envelope_gen_num_release = 3
 };
 
+#if 0
+extern void OPL3_EnvelopeUpdateKSL(opl3_slot *slot);
+#else
 static void OPL3_EnvelopeUpdateKSL(opl3_slot *slot)
 {
     Bit16s ksl = (kslrom[slot->channel->f_num >> 6] << 2)
@@ -139,6 +142,7 @@ static void OPL3_EnvelopeUpdateKSL(opl3_slot *slot)
     }
     slot->eg_ksl = (Bit8u)ksl;
 }
+#endif
 
 static void OPL3_EnvelopeCalc(opl3_slot *slot)
 {

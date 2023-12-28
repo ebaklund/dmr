@@ -4,6 +4,7 @@ use super::opl3_chip::Opl3Chip;
 
 use libc::c_void;
 use std::cmp::max;
+use std::ptr::null_mut;
 
 // PRIVATE
 
@@ -13,6 +14,7 @@ static  KSL_ROM: [u8; 16] = [
     0, 32, 40, 45, 48, 51, 53, 55, 56, 58, 59, 60, 61, 62, 63, 64
 ];
 
+#[derive(Copy, Clone)] 
 pub struct Opl3Channel {
     slots: *mut [Opl3Slot; 2],
     pair: *mut Opl3Channel,
@@ -33,6 +35,26 @@ pub struct Opl3Channel {
 // PUBLIC
 
 impl Opl3Channel {
+    
+    pub fn new() -> Opl3Channel {
+        Opl3Channel {
+            slots: null_mut(),
+            pair: null_mut(),
+            chip: null_mut(),
+            out: null_mut(),
+            chtype: 0,
+            f_num: 0,  // Frequency Value (high 2 bits)
+            block: 0,   // Octave (Block) Value
+            fb: 0,      // Feedback Depth
+            con: 0,     // Connection Type
+            alg: 0,
+            ksv: 0,
+            cha: 0,
+            chb: 0,
+            ch_num: 0,            
+        }
+    }
+    
     pub fn get_kls(&self) -> u8 {
         unsafe {
             let ksl = 
