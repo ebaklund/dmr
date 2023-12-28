@@ -435,15 +435,20 @@ void I_GetEvent(void)
         switch (sdlevent.type)
         {
             case SDL_KEYDOWN:
+                if (sdlevent.key.keysym.sym == SDLK_c && (sdlevent.key.keysym.mod & KMOD_CTRL)) {
+                    I_Quit();
+                    break;
+                }
+
                 if (ToggleFullScreenKeyShortcut(&sdlevent.key.keysym))
                 {
                     I_ToggleFullScreen();
-                    break;
                 }
+                //break;
                 // deliberate fall-though
 
             case SDL_KEYUP:
-		I_HandleKeyboardEvent(&sdlevent);
+		        I_HandleKeyboardEvent(&sdlevent);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
