@@ -1,8 +1,7 @@
 extern crate libc;
-
-use super::c_ffi::ToCString;
-use super::m_argv::DArgv;
 use libc::c_char;
+
+use crate::basics::c_ffi::ToCString;
 
 #[link(name = "dmc", kind = "static")]
 extern "C" {
@@ -17,14 +16,13 @@ impl DGame {
         DGame {}
     }
 
-    pub fn main(self: &Self, dargv: &DArgv) -> Result<(), String> {
-        let iwadname = dargv.iwad.to_cstring()?;
+    pub fn main(self: &Self, iwadname: &String) -> Result<(), String> {
 
         println!("Z_Init: Init zone memory allocation daemon.");
 
         unsafe {
             Z_Init();
-            D_DoomMain(iwadname.as_ptr());
+            D_DoomMain(iwadname.to_cstring()?.as_ptr());
         }
 
         Ok(())
