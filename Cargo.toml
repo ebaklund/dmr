@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 libc = "0.2.139"
-clap = { version = "4.0.32", features = ["derive", "cargo"] }
+clap = { version = "4.0.32", features = ["derive", "cargo", "env"] }
 assertor = "0.0.2"
 ternary-operator-macro = "0.0.1"
 
