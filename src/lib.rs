@@ -4,6 +4,8 @@ pub mod basics;
 pub mod data;
 pub mod game;
 pub mod sound;
+pub mod gui;
+pub mod hud;
 
 use crate::app::app::app_main;
 
