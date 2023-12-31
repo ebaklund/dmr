@@ -387,11 +387,13 @@ static void HandleWindowEvent(SDL_WindowEvent *event)
 
 static boolean ToggleFullScreenKeyShortcut(SDL_Keysym *sym)
 {
-    Uint16 flags = (KMOD_LALT | KMOD_RALT);
-#if defined(__MACOSX__)
-    flags |= (KMOD_LGUI | KMOD_RGUI);
-#endif
-    return sym->scancode == SDL_SCANCODE_RETURN && (sym->mod & flags) != 0;
+    switch (sym->scancode) {
+        case SDL_SCANCODE_LALT:
+        case SDL_SCANCODE_RALT:
+            return true;
+        default:
+            return false;
+    }
 }
 
 static void I_ToggleFullScreen(void)
