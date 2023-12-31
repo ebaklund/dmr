@@ -1112,11 +1112,7 @@ AM_drawFline
 	    return;
     }
 
-#ifndef CRISPY_TRUECOLOR
 #define PUTDOT(xx,yy,cc) fb[(yy)*f_w+(flipscreenwidth[xx])]=(cc)
-#else
-#define PUTDOT(xx,yy,cc) fb[(yy)*f_w+(flipscreenwidth[xx])]=(colormaps[(cc)])
-#endif
 
     dx = fl->b.x - fl->a.x;
     ax = 2 * (dx<0 ? -dx : dx);
@@ -1713,16 +1709,6 @@ void AM_drawCrosshair(int color)
 	AM_drawFline(&h, color);
 	AM_drawFline(&v, color);
     }
-// [crispy] do not draw the useless dot on the player arrow
-/*
-    else
-#ifndef CRISPY_TRUECOLOR
-    fb[(f_w*(f_h+1))/2] = color; // single point for now
-#else
-    fb[(f_w*(f_h+1))/2] = colormaps[color]; // single point for now
-#endif
-*/
-
 }
 
 void AM_Drawer (void)

@@ -413,11 +413,7 @@ typedef struct vissprite_s
    
     int			mobjflags;
     // [crispy] color translation table for blood colored by monster class
-    byte*			translation;
-#ifdef CRISPY_TRUECOLOR
-    const pixel_t	(*blendfunc)(const pixel_t fg, const pixel_t bg);
-#endif
-    
+    byte*			translation;    
 } vissprite_t;
 
 

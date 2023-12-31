@@ -1972,16 +1972,6 @@ static default_t extra_defaults_list[] =
 
     CONFIG_VARIABLE_INT(crispy_translucency),
 
-#ifdef CRISPY_TRUECOLOR
-    //!
-    // @game doom
-    //
-    // Enable true-color rendering (experimental).
-    //
-
-    CONFIG_VARIABLE_INT(crispy_truecolor),
-#endif
-
     //!
     // @game doom
     //

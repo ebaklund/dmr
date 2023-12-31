@@ -223,12 +223,9 @@ boolean D_Display(void)
     HU_Drawer();
 
   // clean up border stuff
-  if (gamestate != oldgamestate && gamestate != GS_LEVEL)
-#ifndef CRISPY_TRUECOLOR
+  if (gamestate != oldgamestate && gamestate != GS_LEVEL) {
     I_SetPalette(W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
-#else
-    I_SetPalette(0);
-#endif
+  }
 
   // see if the border needs to be initially drawn
   if (gamestate == GS_LEVEL && oldgamestate != GS_LEVEL)

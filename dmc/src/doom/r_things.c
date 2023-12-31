@@ -492,9 +492,6 @@ void R_DrawVisSprite(vissprite_t* vis, int x1, int x2)
     {
       colfunc = tlcolfunc;
     }
-#ifdef CRISPY_TRUECOLOR
-    blendfunc = vis->blendfunc;
-#endif
   }
 
   dc_iscale = abs(vis->xiscale) >> detailshift;
@@ -524,9 +521,6 @@ void R_DrawVisSprite(vissprite_t* vis, int x1, int x2)
   }
 
   colfunc = basecolfunc;
-#ifdef CRISPY_TRUECOLOR
-  blendfunc = I_BlendOver;
-#endif
 }
 
 //
@@ -780,14 +774,6 @@ void R_ProjectSprite(mobj_t* thing)
       }
     }
   }
-
-#ifdef CRISPY_TRUECOLOR
-  // [crispy] translucent sprites
-  if (thing->flags & MF_TRANSLUCENT)
-  {
-    vis->blendfunc = (thing->frame & FF_FULLBRIGHT) ? I_BlendAdd : I_BlendOver;
-  }
-#endif
 }
 
 extern void P_LineLaser(mobj_t* t1,
@@ -884,10 +870,6 @@ static void R_DrawLSprite(void)
                     : colormaps;  // [crispy] always full brightness
   vis->brightmap = dc_brightmap;
   vis->translation = R_LaserspotColor();
-#ifdef CRISPY_TRUECOLOR
-  vis->mobjflags |= MF_TRANSLUCENT;
-  vis->blendfunc = I_BlendAdd;
-#endif
   vis->xiscale = FixedDiv(FRACUNIT, xscale);
   vis->texturemid = laserspot->z - viewz;
   vis->scale = xscale << detailshift;
@@ -1051,12 +1033,8 @@ void R_DrawPSprite(
   vis->brightmap = R_BrightmapForState(psp->state - states);
 
   // [crispy] translucent gun flash sprites
-  if (psprnum == ps_flash)
-  {
+  if (psprnum == ps_flash) {
     vis->mobjflags |= MF_TRANSLUCENT;
-#ifdef CRISPY_TRUECOLOR
-    vis->blendfunc = I_BlendOver;  // I_BlendAdd;
-#endif
   }
 
   R_DrawVisSprite(vis, vis->x1, vis->x2);

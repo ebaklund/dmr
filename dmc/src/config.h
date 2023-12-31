@@ -1,9 +1,6 @@
 /* config.h.  Generated from config.hin by configure.  */
 /* config.hin.  Generated from configure.ac by autoheader.  */
 
-/* true-color rendering */
-/* #undef CRISPY_TRUECOLOR */
-
 /* Define to 1 if you have the declaration of `strcasecmp', and to 0 if you
    don't. */
 #define HAVE_DECL_STRCASECMP 1

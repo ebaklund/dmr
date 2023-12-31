@@ -857,15 +857,9 @@ static void M_DrawCrispnessBackground(void)
 
   dest = I_VideoBuffer;
 
-  for (y = 0; y < SCREENHEIGHT; y++)
-  {
-    for (x = 0; x < SCREENWIDTH; x++)
-    {
-#ifndef CRISPY_TRUECOLOR
+  for (y = 0; y < SCREENHEIGHT; y++) {
+    for (x = 0; x < SCREENWIDTH; x++) {
       *dest++ = src[(y & 63) * 64 + (x & 63)];
-#else
-      *dest++ = colormaps[src[(y & 63) * 64 + (x & 63)]];
-#endif
     }
   }
 
@@ -1863,18 +1857,9 @@ boolean M_Responder(event_t* ev)
       if (usegamma > 4 + 4)  // [crispy] intermediate gamma levels
         usegamma = 0;
       players[consoleplayer].message = DEH_String(gammamsg[usegamma]);
-#ifndef CRISPY_TRUECOLOR
+
       I_SetPalette(W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
-#else
-      {
-        extern void R_InitColormaps(void);
-        I_SetPalette(0);
-        R_InitColormaps();
-        inhelpscreens = true;
-        R_FillBackScreen();
-        viewactive = false;
-      }
-#endif
+
       return true;
     }
     // [crispy] those two can be considered as shortcuts for the IDCLEV cheat
